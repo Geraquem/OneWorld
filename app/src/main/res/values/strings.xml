@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">One World</string>
+
+    <string name="empty"> </string>
+
+    <!-- CONTENT DESCRIPTIONS -->
+    <string name="cd_arrow_back">Atrás</string>
+
+    <!-- BOTTOM NAV -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_edit">Editar</string>
+    <string name="bottom_nav_profile">Perfil</string>
+
+    <!-- EVENTS -->
+    <string name="events_toolbar">Eventos</string>
+
+    <!-- CREATE EVENT -->
+    <string name="create_event_toolbar">Crear evento</string>
+    <string name="create_event_title">Título del evento</string>
+    <string name="create_event_description">Descripción</string>
+    <string name="create_event_time_picker">Seleccionar hora</string>
+    <string name="create_event_time_picker_confirm">Confirmar</string>
+    <string name="create_event_button">Crear evento</string>
+
+    <!-- PROFILE -->
+    <string name="profile_created_events">%s Eventos creados</string>
+    <string name="profile_initiate_session">Iniciar sesión</string>
+    <string name="profile_no_events">Parece que todavía\nno has creado nada</string>
+    <string name="profile_edit_profile">Editar perfil</string>
+    <string name="profile_create_event">Crear evento</string>
+
+    <string name="edit_profile_name">Nombre</string>
+    <string name="edit_profile_biography">Algo sobre ti</string>
+    <string name="edit_profile_website">Sitio web</string>
+    <string name="edit_profile_save_data">Guardar</string>
+
 </resources>

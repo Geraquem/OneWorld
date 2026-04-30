@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "920594179560",
+    "project_id": "one-world-22df4",
+    "storage_bucket": "one-world-22df4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920594179560:android:02d90ad0a210010998705d",
+        "android_client_info": {
+          "package_name": "com.mmfsin.oneworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920594179560-fedi654c46ctl4qacdce152rg7jh7nq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mmfsin.oneworld",
+            "certificate_hash": "95b0ec364034697bac74b1361cc5eeae1d5b84dc"
+          }
+        },
+        {
+          "client_id": "920594179560-ge9m0faupoub0hsvcpe6o8rk0sme41go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO-pdbVbI_M2MyaZsNG1nsqfw3uvZENxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920594179560-ge9m0faupoub0hsvcpe6o8rk0sme41go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

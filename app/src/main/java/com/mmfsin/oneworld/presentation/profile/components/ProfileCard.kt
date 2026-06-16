@@ -1,17 +1,16 @@
 package com.mmfsin.oneworld.presentation.profile.components
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,16 +20,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.UserProfile
-import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
@@ -51,6 +51,9 @@ fun ProfileCardPV() {
 
 @Composable
 fun ProfileCard(userProfile: UserProfile) {
+
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier.fillMaxWidth()
             .zIndex(1f)
@@ -83,24 +86,26 @@ fun ProfileCard(userProfile: UserProfile) {
                 )
             }
 
-            SpacerCustom(space = 24.dp, horizontal = true)
+            SpacerCustom(space = 8.dp, horizontal = true)
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("0", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                MediumText(R.string.profile_events)
-            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                    SmallText(R.string.profile_events)
+                }
 
-            SpacerCustom(space = 24.dp, horizontal = true)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                    SmallText(R.string.profile_assisted)
+                }
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("0", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                MediumText(R.string.profile_assisted)
-            }
-
-            Spacer(Modifier.weight(1f))
-
-            IconButton(onClick = {}) {
-                Icon(painterResource(R.drawable.ic_edit), null)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                    SmallText(R.string.profile_assisted)
+                }
             }
         }
 
@@ -123,7 +128,12 @@ fun ProfileCard(userProfile: UserProfile) {
                 text = web,
                 fontWeight = FontWeight.SemiBold,
                 color = BlueMedium,
-                modifier = Modifier.clickable(onClick = {})
+                modifier = Modifier.clickable(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, web.toUri())
+                        context.startActivity(intent)
+                    }
+                )
             )
         }
     }

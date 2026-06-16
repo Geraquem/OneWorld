@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,10 +19,14 @@ import androidx.compose.ui.unit.dp
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.UserProfile
-import com.mmfsin.oneworld.presentation.core.components.MiniLoading
+import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.SmallText
+import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
+import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
+import com.mmfsin.oneworld.presentation.core.theme.Black
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
+import com.mmfsin.oneworld.presentation.core.theme.GrayMedium
 import com.mmfsin.oneworld.presentation.home.EventCard
 
 @Preview
@@ -35,7 +37,7 @@ fun ProfileViewPV() {
             name = "Juanito",
             biography = "jcskljfdclkñszdjfñnzsdmgjm"
         ),
-        events = null,
+        events = emptyList(),
         editProfile = {},
         createEvent = {}
     )
@@ -48,9 +50,6 @@ fun ProfileView(
     editProfile: () -> Unit,
     createEvent: () -> Unit
 ) {
-
-    val totalEvents = events?.size?.toString() ?: ""
-
     Column(
         modifier = Modifier.fillMaxSize().background(GrayLight)
     ) {
@@ -59,16 +58,22 @@ fun ProfileView(
 
         Column(Modifier.padding(horizontal = 16.dp)) {
 
-            SpacerMedium()
+            SpacerSmall()
 
             UserProfileButtons(editProfile = { editProfile() }, createEvent = { createEvent() })
 
-            events?.let { e ->
+            SpacerSmall()
 
-                Text(
-                    text = stringResource(R.string.profile_created_events, totalEvents),
-                    fontWeight = FontWeight.SemiBold
-                )
+            events?.let { e ->
+                val totalEvents = e.size
+
+                if (totalEvents < 1) SmallText(R.string.profile_created_events_none)
+                else {
+                    Text(
+                        text = stringResource(R.string.profile_created_events, totalEvents.toString()),
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
 
                 SpacerMedium()
 
@@ -85,27 +90,24 @@ fun ProfileView(
 @Composable
 fun UserProfileButtons(editProfile: () -> Unit, createEvent: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        Button(onClick = { editProfile() }, modifier = Modifier.weight(1f)) {
-            Text(
-                text = stringResource(R.string.profile_edit_profile),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+        ButtonCustom(
+            onClick = { editProfile() },
+            text = R.string.profile_edit_profile,
+            color = GrayMedium,
+            textColor = Black,
+            modifier = Modifier.weight(1f)
+        )
 
-        /*
-        Spacer(Modifier.width(8.dp))
+        SpacerCustom(space = 8.dp, horizontal = true)
 
-        Button(onClick = { createEvent() }, modifier = Modifier.weight(1f)) {
-            Text(
-                text = stringResource(R.string.profile_create_event),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-
-         */
+        ButtonCustom(
+            onClick = { editProfile() },
+            text = R.string.profile_create_event,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 

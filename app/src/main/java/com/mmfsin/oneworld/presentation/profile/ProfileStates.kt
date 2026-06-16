@@ -5,7 +5,6 @@ import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.UserProfile
 
 data class ProfileStates(
-    val isUserLogged: Boolean = false,
     val signInIntent: Intent? = null,
 
     val userProfile: UserProfile? = null,

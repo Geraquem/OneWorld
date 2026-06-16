@@ -4,9 +4,9 @@ data class EditProfileStates(
     val isLoading: Boolean = true,
 
     val name: String = "",
-    val biography: String = "",
-    val imageUrl: String = "",
-    val website: String = "",
+    val biography: String? = null,
+    val imageUrl: String? = null,
+    val website: String? = null,
 
     val flowCompleted: Boolean = false
 )

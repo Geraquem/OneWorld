@@ -63,7 +63,6 @@ class ProfileViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             userProfile = p,
-                            isUserLogged = true,
                             isLoading = false
                         )
                     }
@@ -78,10 +77,10 @@ class ProfileViewModel @Inject constructor(
             { getUserProfileUseCase() },
             { profile ->
                 profile?.let {
+                    getUserEvents(profile.id)
                     _uiState.update {
                         it.copy(
                             userProfile = profile,
-                            isUserLogged = true,
                             isLoading = false
                         )
                     }
@@ -91,7 +90,7 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    fun getUserEvents(userId: String) {
+    private fun getUserEvents(userId: String) {
         executeUseCase(
             { getUserEventsUseCase(userId) },
             { events ->

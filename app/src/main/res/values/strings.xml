@@ -3,6 +3,11 @@
 
     <string name="empty"> </string>
 
+    <!-- ERROR -->
+    <string name="error_title">Vaya, parece que algo ha salido mal</string>
+    <string name="error_subtitle">Inténtalo de nuevo más tarde</string>
+    <string name="error_btn">Aceptar</string>
+
     <!-- CONTENT DESCRIPTIONS -->
     <string name="cd_arrow_back">Atrás</string>
 
@@ -26,8 +31,12 @@
     <string name="profile_created_events">%s Eventos creados</string>
     <string name="profile_initiate_session">Iniciar sesión</string>
     <string name="profile_no_events">Parece que todavía\nno has creado nada</string>
+    <string name="profile_loading_events">Cargando eventos…</string>
     <string name="profile_edit_profile">Editar perfil</string>
     <string name="profile_create_event">Crear evento</string>
+    <string name="profile_events">Eventos</string>
+    <string name="profile_assisted">Asistidos</string>
+    <string name="profile_followers">Seguidores</string>
 
     <string name="edit_profile_name">Nombre</string>
     <string name="edit_profile_biography">Algo sobre ti</string>

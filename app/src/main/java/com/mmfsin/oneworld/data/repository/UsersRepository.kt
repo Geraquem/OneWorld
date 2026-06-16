@@ -72,8 +72,8 @@ class UsersRepository @Inject constructor(
 
         usersDAO.updateUser(
             id = user.id,
-            imageUrl = data.imageUrl,
             name = data.name,
+            imageUrl = data.imageUrl,
             biography = data.biography,
             website = data.website,
         )

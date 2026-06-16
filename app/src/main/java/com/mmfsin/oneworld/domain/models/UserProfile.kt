@@ -4,7 +4,7 @@ data class UserProfile(
     var id: String = "",
     var email: String = "",
     var name: String = "",
-    var imageUrl: String = "",
-    var biography: String = "",
-    var website: String = ""
+    var imageUrl: String? = null,
+    var biography: String? = null,
+    var website: String? = null
 )

@@ -8,8 +8,8 @@ import com.mmfsin.oneworld.utils.TABLE_USERS
 data class UserProfileDTO(
     @PrimaryKey var id: String = "",
     var email: String = "",
-    var imageUrl: String = "",
+    var imageUrl: String? = null,
     var name: String = "",
-    var biography: String = "",
-    var website: String = ""
+    var biography: String? = null,
+    var website: String? = null
 )

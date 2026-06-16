@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.oneworld.domain.models.UserProfile
+import com.mmfsin.oneworld.presentation.core.components.ErrorDialog
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.profile.components.InitiateSession
 import com.mmfsin.oneworld.presentation.profile.components.ProfileView
@@ -23,23 +24,22 @@ import com.mmfsin.oneworld.utils.openBedRockActivity
 fun ProfileScreenPV() {
     ProfileContent(
         ProfileStates(
-            isUserLogged = true,
             isLoading = false,
             userProfile = UserProfile(
                 name = "Juan"
             )
         ),
-        {}, {}, { Intent() })
+        {}, { Intent() })
 }
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ProfileContent(
         uiState = uiState,
         doLogin = { viewModel.doLogin(it) },
-        getUserEvents = { id -> viewModel.getUserEvents(id) },
         signInWithGoogle = { viewModel.signInWithGoogle() }
     )
 }
@@ -48,7 +48,6 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 fun ProfileContent(
     uiState: ProfileStates,
     doLogin: (ActivityResult) -> Unit,
-    getUserEvents: (String) -> Unit,
     signInWithGoogle: () -> Intent
 ) {
     val context = LocalContext.current
@@ -57,8 +56,7 @@ fun ProfileContent(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result -> doLogin(result) }
 
-    if (uiState.isUserLogged) {
-        uiState.userProfile?.id?.let { userId -> getUserEvents(userId) }
+    if (uiState.userProfile != null) {
         ProfileView(
             profile = uiState.userProfile,
             events = uiState.eventsCreated,
@@ -66,11 +64,14 @@ fun ProfileContent(
             createEvent = { context.openBedRockActivity(CREATE_EVENT) }
         )
     } else {
-        InitiateSession(initiateSession = {
-            val intent = signInWithGoogle()
-            launcher.launch(intent)
-        })
+        InitiateSession(
+            initiateSession = {
+                val intent = signInWithGoogle()
+                launcher.launch(intent)
+            }
+        )
     }
 
     if (uiState.isLoading) LoadingFullScreen()
+    if (uiState.sww) ErrorDialog(accept = {})
 }

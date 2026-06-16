@@ -109,7 +109,7 @@ fun EditProfileContent(
             Spacer(Modifier.height(16.dp))
 
             MyTextField(
-                uiState.biography, { changeBio(it) },
+                uiState.biography ?: "", { changeBio(it) },
                 label = R.string.edit_profile_biography,
                 minLines = 6,
                 maxLines = 12,
@@ -118,7 +118,10 @@ fun EditProfileContent(
 
             Spacer(Modifier.height(16.dp))
 
-            MyTextField(uiState.website, { changeWebsite(it) }, R.string.edit_profile_website)
+            MyTextField(
+                uiState.website ?: "", { changeWebsite(it) },
+                label = R.string.edit_profile_website
+            )
 
             Spacer(Modifier.height(24.dp))
         }

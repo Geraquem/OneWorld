@@ -43,10 +43,10 @@ class EditProfileViewModel @Inject constructor(
 
     fun saveProfileChanges() {
         val data = UpdateProfileData(
-            imageUrl = _uiState.value.imageUrl,
-            name = _uiState.value.name,
-            biography = _uiState.value.biography,
-            website = _uiState.value.website,
+            imageUrl = uiState.value.imageUrl,
+            name = uiState.value.name,
+            biography = uiState.value.biography,
+            website = uiState.value.website,
         )
 
         executeUseCase(

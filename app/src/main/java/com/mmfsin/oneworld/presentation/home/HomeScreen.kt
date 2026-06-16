@@ -39,8 +39,6 @@ fun HomeScreenPV() {
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-//    LaunchedEffect(Unit) { viewModel.getEvents() }
-
     val totalElements = (uiState.events.size - 1)
     Column {
         Toolbar(text = R.string.events_toolbar)

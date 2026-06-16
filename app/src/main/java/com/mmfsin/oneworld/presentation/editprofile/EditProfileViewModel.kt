@@ -42,6 +42,9 @@ class EditProfileViewModel @Inject constructor(
     fun changeWebsite(website: String) = _uiState.update { it.copy(website = website) }
 
     fun saveProfileChanges() {
+
+        _uiState.update { it.copy(isLoading = true) }
+
         val data = UpdateProfileData(
             imageUrl = uiState.value.imageUrl,
             name = uiState.value.name,
@@ -51,7 +54,14 @@ class EditProfileViewModel @Inject constructor(
 
         executeUseCase(
             { editUserProfileUseCase(data) },
-            { _uiState.update { it.copy(flowCompleted = true) } },
+            {
+                _uiState.update {
+                    it.copy(
+                        flowCompleted = true,
+                        isLoading = false
+                    )
+                }
+            },
             {}
         )
     }

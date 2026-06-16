@@ -1,6 +1,7 @@
 package com.mmfsin.oneworld.presentation.profile.components
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
@@ -56,17 +55,9 @@ fun ProfileCard(userProfile: UserProfile) {
 
     Column(
         modifier = Modifier.fillMaxWidth()
-            .zIndex(1f)
-            .shadow(
-                elevation = 4.dp,
-                clip = false
-            ).background(Color.White)
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 16.dp,
-                top = 32.dp
-            )
+            .background(Color.White)
+            .padding(16.dp)
+            .padding(top = 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -130,8 +121,12 @@ fun ProfileCard(userProfile: UserProfile) {
                 color = BlueMedium,
                 modifier = Modifier.clickable(
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, web.toUri())
-                        context.startActivity(intent)
+                        try {
+                            val intent = Intent(Intent.ACTION_VIEW, web.toUri())
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Error abriendo enlace", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 )
             )

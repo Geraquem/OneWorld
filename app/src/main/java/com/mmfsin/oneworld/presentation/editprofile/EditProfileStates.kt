@@ -1,7 +1,7 @@
 package com.mmfsin.oneworld.presentation.editprofile
 
 data class EditProfileStates(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
 
     val name: String = "",
     val biography: String? = null,

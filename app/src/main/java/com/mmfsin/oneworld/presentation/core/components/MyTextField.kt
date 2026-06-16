@@ -1,19 +1,24 @@
 package com.mmfsin.oneworld.presentation.core.components
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.oneworld.R
+import com.mmfsin.oneworld.presentation.core.theme.Black
+import com.mmfsin.oneworld.presentation.core.theme.GrayHard
 
 @Preview(showBackground = true)
 @Composable
@@ -26,27 +31,32 @@ fun MyTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: Int,
+    textColor: Color = Black,
     singleLine: Boolean = true,
     minLines: Int = 1,
-    maxLines: Int = 1
+    maxLines: Int = 1,
+    imeAction: ImeAction = ImeAction.Next
 ) {
-    OutlinedTextField(
-        value = value, onValueChange = { onValueChange(it) },
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        label = {
-            Text(
-                text = stringResource(label),
-                style = MaterialTheme.typography.bodyLarge
+    Box(
+        modifier = Modifier
+            .border(1.dp, GrayHard, RoundedCornerShape(8.dp))
+            .padding(12.dp)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            SmallText(label)
+            SpacerMini()
+            BasicTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = value, onValueChange = { onValueChange(it) },
+                singleLine = singleLine,
+                textStyle = MaterialTheme.typography.bodyLarge,
+                minLines = minLines,
+                maxLines = maxLines,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = imeAction,
+                    capitalization = KeyboardCapitalization.Sentences
+                )
             )
-        },
-        singleLine = singleLine,
-        textStyle = MaterialTheme.typography.bodyLarge,
-        minLines = minLines,
-        maxLines = maxLines,
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-            capitalization = KeyboardCapitalization.Sentences
-        )
-    )
+        }
+    }
 }

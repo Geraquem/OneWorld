@@ -23,6 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
 import com.mmfsin.oneworld.presentation.core.components.StatusBarColor
+import com.mmfsin.oneworld.presentation.core.theme.Black
+import com.mmfsin.oneworld.presentation.core.theme.RedHard
 import com.mmfsin.oneworld.presentation.home.HomeScreen
 import com.mmfsin.oneworld.presentation.profile.ProfileScreen
 import com.mmfsin.oneworld.utils.BN_EDIT_ID
@@ -42,7 +44,7 @@ fun NavigationWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    StatusBarColor()
+    StatusBarColor(RedHard)
     Scaffold(
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {

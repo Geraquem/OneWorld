@@ -17,7 +17,7 @@ val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = montserratRegular,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
     ),
 
     bodyLarge = TextStyle(

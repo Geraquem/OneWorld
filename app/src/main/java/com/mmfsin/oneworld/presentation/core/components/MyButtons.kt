@@ -35,6 +35,7 @@ fun ButtonCustomPV() {
 fun ButtonCustom(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
     text: Int,
     enabled: Boolean = true,
     color: Color = OrangeMedium,
@@ -51,7 +52,8 @@ fun ButtonCustom(
     ) {
         MediumText(
             text = text,
-            color = textColor
+            color = textColor,
+            modifier = textModifier
         )
     }
 }

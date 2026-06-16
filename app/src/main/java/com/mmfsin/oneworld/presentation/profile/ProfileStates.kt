@@ -11,7 +11,7 @@ data class ProfileStates(
     val eventsCreated: List<Event>? = null,
 
     val isLoading: Boolean = true,
-    val hasSession: Boolean = true,
+    val userLogged: Boolean = false,
 
     val sww: Boolean = false
 )

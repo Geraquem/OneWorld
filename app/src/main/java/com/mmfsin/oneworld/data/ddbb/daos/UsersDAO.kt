@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mmfsin.oneworld.data.models.UserProfileDTO
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsersDAO {
@@ -32,8 +33,14 @@ interface UsersDAO {
     )
 
     @Query("SELECT * FROM table_users LIMIT 1")
-    suspend fun getActiveUser(): UserProfileDTO?
+    fun getActiveUserFlow(): Flow<UserProfileDTO?>
+
+    @Query("SELECT * FROM table_users LIMIT 1")
+    fun getActiveUser(): UserProfileDTO?
 
     @Query("SELECT * FROM table_users WHERE email = :email LIMIT 1")
-    suspend fun getUserByEmail(email: String): UserProfileDTO?
+    fun getUserByEmail(email: String): UserProfileDTO?
+
+    @Query("DELETE FROM table_users")
+    fun closeSession()
 }

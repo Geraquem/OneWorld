@@ -25,6 +25,7 @@ fun ProfileScreenPV() {
     ProfileContent(
         ProfileStates(
             isLoading = false,
+            userLogged = true,
             userProfile = UserProfile(
                 name = "Juan"
             )
@@ -56,20 +57,23 @@ fun ProfileContent(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result -> doLogin(result) }
 
-    if (uiState.userProfile != null) {
+    if (uiState.userLogged && uiState.userProfile != null) {
         ProfileView(
             profile = uiState.userProfile,
             events = uiState.eventsCreated,
             editProfile = { context.openBedRockActivity(EDIT_PROFILE) },
             createEvent = { context.openBedRockActivity(CREATE_EVENT) }
         )
-    } else {
+    }
+
+    if (!uiState.userLogged) {
         InitiateSession(
             initiateSession = {
                 val intent = signInWithGoogle()
                 launcher.launch(intent)
             }
         )
+        return
     }
 
     if (uiState.isLoading) LoadingFullScreen()

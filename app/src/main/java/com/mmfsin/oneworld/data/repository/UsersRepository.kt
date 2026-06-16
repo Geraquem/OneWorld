@@ -15,6 +15,8 @@ import com.mmfsin.oneworld.domain.models.UserProfile
 import com.mmfsin.oneworld.utils.GOOGLE_AUTH
 import com.mmfsin.oneworld.utils.USERS
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -60,15 +62,15 @@ class UsersRepository @Inject constructor(
 
         /** insert in Room */
         user?.let { usersDAO.insertUser(user) }
-        return user?.toUserProfile()
-    }
-
-    override suspend fun getUserProfile(): UserProfile? {
         return usersDAO.getActiveUser()?.toUserProfile()
     }
 
+    override fun getUserProfile(): Flow<UserProfile?> {
+        return usersDAO.getActiveUserFlow().map { it?.toUserProfile() }
+    }
+
     override suspend fun editUserProfile(data: UpdateProfileData) {
-        val user = getUserProfile() ?: throw Exception("User not found")
+        val user = usersDAO.getActiveUser() ?: throw Exception("User not found")
 
         usersDAO.updateUser(
             id = user.id,
@@ -82,5 +84,16 @@ class UsersRepository @Inject constructor(
         db.collection(USERS).document(user.email)
             .set(data, SetOptions.merge())
             .await()
+    }
+
+    override fun closeSession() {
+        val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(GOOGLE_AUTH)
+            .requestEmail()
+            .build()
+
+        val client = GoogleSignIn.getClient(context, googleConf)
+        client.signOut()
+        usersDAO.closeSession()
     }
 }

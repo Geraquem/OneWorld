@@ -46,4 +46,9 @@
     <string name="edit_profile_save_data">Guardar cambios</string>
     <string name="edit_profile_updating">Actualizando perfil</string>
 
+    <string name="close_session_title">¿Quieres cerrar sesión?</string>
+    <string name="close_session_description">Se borrará toda la información de tu perfil en este dispositivo.</string>
+    <string name="close_session_btn_yes">Cerrar sesión</string>
+    <string name="close_session_btn_cancel">Cancelar</string>
+
 </resources>

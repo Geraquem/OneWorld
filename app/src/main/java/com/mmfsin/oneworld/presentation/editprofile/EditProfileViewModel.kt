@@ -1,10 +1,14 @@
 package com.mmfsin.oneworld.presentation.editprofile
 
+import androidx.lifecycle.viewModelScope
 import com.mmfsin.oneworld.domain.models.UpdateProfileData
+import com.mmfsin.oneworld.domain.usecases.CloseSessionUseCase
 import com.mmfsin.oneworld.domain.usecases.EditUserProfileUseCase
 import com.mmfsin.oneworld.domain.usecases.GetUserProfileUseCase
 import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -12,29 +16,27 @@ import javax.inject.Inject
 class EditProfileViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val editUserProfileUseCase: EditUserProfileUseCase,
+    private val closeSessionUseCase: CloseSessionUseCase,
 ) : BaseViewModel<EditProfileStates>(EditProfileStates()) {
 
     init {
-        getUserProfile()
+        observeUserProfile()
     }
 
-    fun getUserProfile() {
-        executeUseCase(
-            { getUserProfileUseCase() },
-            { profile ->
-                profile?.let {
-                    _uiState.update {
-                        it.copy(
-                            name = profile.name,
-                            biography = profile.biography,
-                            imageUrl = profile.imageUrl,
-                            website = profile.website
-                        )
-                    }
+    private fun observeUserProfile() {
+        getUserProfileUseCase().onEach { profile ->
+            if (profile != null) {
+                _uiState.update {
+                    it.copy(
+                        name = profile.name,
+                        biography = profile.biography,
+                        imageUrl = profile.imageUrl,
+                        website = profile.website,
+                        isLoading = false
+                    )
                 }
-            },
-            {}
-        )
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun changeName(name: String) = _uiState.update { it.copy(name = name) }
@@ -54,15 +56,18 @@ class EditProfileViewModel @Inject constructor(
 
         executeUseCase(
             { editUserProfileUseCase(data) },
-            {
-                _uiState.update {
-                    it.copy(
-                        flowCompleted = true,
-                        isLoading = false
-                    )
-                }
-            },
+            { _uiState.update { it.copy(flowCompleted = true) } },
             {}
+        )
+    }
+
+    fun showCloseSessionDialog(value: Boolean) = _uiState.update { it.copy(showCloseSessionDialog = value) }
+
+    fun closeSession() {
+        executeUseCase(
+            { closeSessionUseCase() },
+            { _uiState.update { it.copy(flowCompleted = true) } },
+            {},
         )
     }
 }

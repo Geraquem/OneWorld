@@ -8,5 +8,7 @@ data class EditProfileStates(
     val imageUrl: String? = null,
     val website: String? = null,
 
+    val showCloseSessionDialog: Boolean = false,
+
     val flowCompleted: Boolean = false
 )

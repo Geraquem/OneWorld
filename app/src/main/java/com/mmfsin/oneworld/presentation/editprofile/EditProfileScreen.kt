@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,15 +34,17 @@ import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.DialogLoading
-import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.MyTextField
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
+import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.theme.OrangeLight
 import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
+import com.mmfsin.oneworld.presentation.core.theme.RedMedium
+import com.mmfsin.oneworld.presentation.editprofile.components.CloseSessionDialog
 
 @Preview
 @Composable
@@ -48,7 +53,9 @@ fun EditProfileScreenPV() {
         EditProfileStates(
             isLoading = false,
         ),
-        {}, {}, {}, {}, {})
+        {}, {}, {}, {},
+        {}, {}, {}
+    )
 }
 
 @Composable
@@ -61,6 +68,8 @@ fun EditProfileScreen(viewModel: EditProfileViewModel = hiltViewModel(), onBack:
         changeBio = { viewModel.changeBio(it) },
         changeWebsite = { viewModel.changeWebsite(it) },
         saveChanges = { viewModel.saveProfileChanges() },
+        showCloseSessionDialog = { value -> viewModel.showCloseSessionDialog(value) },
+        closeSession = { viewModel.closeSession() },
     )
 }
 
@@ -71,7 +80,9 @@ fun EditProfileContent(
     changeName: (String) -> Unit,
     changeBio: (String) -> Unit,
     changeWebsite: (String) -> Unit,
-    saveChanges: () -> Unit
+    saveChanges: () -> Unit,
+    showCloseSessionDialog: (Boolean) -> Unit,
+    closeSession: () -> Unit
 ) {
 
     if (uiState.flowCompleted) goBack()
@@ -123,8 +134,8 @@ fun EditProfileContent(
             MyTextField(
                 uiState.biography ?: "", { changeBio(it) },
                 label = R.string.edit_profile_biography,
-                minLines = 6,
-                maxLines = 12,
+                minLines = 4,
+                maxLines = 4,
                 singleLine = false,
                 imeAction = ImeAction.None
             )
@@ -133,7 +144,8 @@ fun EditProfileContent(
 
             MyTextField(
                 uiState.website ?: "", { changeWebsite(it) },
-                label = R.string.edit_profile_website
+                label = R.string.edit_profile_website,
+                imeAction = ImeAction.Done
             )
 
             Spacer(Modifier.height(24.dp))
@@ -143,13 +155,36 @@ fun EditProfileContent(
                 .padding(16.dp)
                 .padding(bottom = 8.dp)
         ) {
-            ButtonCustom(
-                onClick = { saveChanges() },
-                text = R.string.edit_profile_save_data,
-                modifier = Modifier.fillMaxWidth(),
-                textModifier = Modifier.padding(4.dp)
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                IconButton(onClick = { showCloseSessionDialog(true) }) {
+                    Icon(
+                        painterResource(R.drawable.ic_log_out), null,
+                        tint = RedMedium
+                    )
+                }
+
+                SpacerMedium(horizontal = true)
+
+                ButtonCustom(
+                    onClick = { saveChanges() },
+                    text = R.string.edit_profile_save_data,
+                    modifier = Modifier.fillMaxWidth(),
+                    textModifier = Modifier.padding(4.dp)
+                )
+            }
         }
     }
+    if (uiState.showCloseSessionDialog) {
+        CloseSessionDialog(
+            onDismiss = { showCloseSessionDialog(false) },
+            closeSession = { closeSession() }
+        )
+    }
+
     if (uiState.isLoading) DialogLoading(text = R.string.edit_profile_updating)
+
 }

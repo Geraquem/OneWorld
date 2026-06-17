@@ -28,12 +28,12 @@ import com.mmfsin.oneworld.R
 
 @Preview
 @Composable
-fun InitiateSessionPV() {
-    InitiateSession {}
+fun LoginScreenPV() {
+    LoginScreen {}
 }
 
 @Composable
-fun InitiateSession(initiateSession: () -> Unit) {
+fun LoginScreen(initiateSession: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().background(Color.White).padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

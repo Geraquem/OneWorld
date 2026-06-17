@@ -42,5 +42,5 @@ interface UsersDAO {
     fun getUserByEmail(email: String): UserProfileDTO?
 
     @Query("DELETE FROM table_users")
-    fun closeSession()
+    suspend fun closeSession()
 }

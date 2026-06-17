@@ -39,6 +39,8 @@
     <string name="profile_assisted">Asistidos</string>
     <string name="profile_followers">Seguidores</string>
 
+    <string name="no_profile_followers">Seguidores</string>
+
     <string name="edit_profile_image">Cambiar foto</string>
     <string name="edit_profile_name">Nombre</string>
     <string name="edit_profile_biography">Algo sobre ti</string>

@@ -38,7 +38,7 @@ class UsersRepository @Inject constructor(
         return GoogleSignIn.getClient(context, googleConf).signInIntent
     }
 
-    override suspend fun getOrCreateUser(name: String, email: String): UserProfile? {
+    override suspend fun getOrCreateUser(name: String, email: String) {
         var user: UserProfileDTO?
 
         val db = FirebaseFirestore.getInstance()
@@ -62,7 +62,6 @@ class UsersRepository @Inject constructor(
 
         /** insert in Room */
         user?.let { usersDAO.insertUser(user) }
-        return usersDAO.getActiveUser()?.toUserProfile()
     }
 
     override fun getUserProfile(): Flow<UserProfile?> {
@@ -86,7 +85,7 @@ class UsersRepository @Inject constructor(
             .await()
     }
 
-    override fun closeSession() {
+    override suspend fun closeSession() {
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(GOOGLE_AUTH)
             .requestEmail()

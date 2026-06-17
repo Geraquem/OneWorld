@@ -35,9 +35,19 @@ class ProfileViewModel @Inject constructor(
         getUserProfileUseCase().onEach { profile ->
             if (profile != null) {
                 _uiState.update {
-                    it.copy(userProfile = profile)
+                    it.copy(
+                        userProfile = profile,
+                        userLogged = true
+                    )
                 }
                 getUserEvents(profile.id)
+            } else {
+                _uiState.update {
+                    it.copy(
+                        userProfile = null,
+                        userLogged = false
+                    )
+                }
             }
         }.launchIn(viewModelScope)
     }
@@ -75,16 +85,7 @@ class ProfileViewModel @Inject constructor(
     fun getOrCreateUserSession(name: String, email: String) {
         executeUseCase(
             { getOrCreateUserUseCase(name, email) },
-            { profile ->
-                profile?.let { p ->
-                    _uiState.update {
-                        it.copy(
-                            userProfile = p,
-                            isLoading = false
-                        )
-                    }
-                } ?: run { sww() }
-            },
+            { /** Flow do his work */ },
             { sww() }
         )
     }

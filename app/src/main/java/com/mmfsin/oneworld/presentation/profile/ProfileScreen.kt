@@ -13,7 +13,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.oneworld.domain.models.UserProfile
 import com.mmfsin.oneworld.presentation.core.components.ErrorDialog
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
-import com.mmfsin.oneworld.presentation.profile.components.InitiateSession
+import com.mmfsin.oneworld.presentation.profile.components.LoginScreen
 import com.mmfsin.oneworld.presentation.profile.components.ProfileView
 import com.mmfsin.oneworld.utils.CREATE_EVENT
 import com.mmfsin.oneworld.utils.EDIT_PROFILE
@@ -64,10 +64,8 @@ fun ProfileContent(
             editProfile = { context.openBedRockActivity(EDIT_PROFILE) },
             createEvent = { context.openBedRockActivity(CREATE_EVENT) }
         )
-    }
-
-    if (!uiState.userLogged) {
-        InitiateSession(
+    } else {
+        LoginScreen(
             initiateSession = {
                 val intent = signInWithGoogle()
                 launcher.launch(intent)

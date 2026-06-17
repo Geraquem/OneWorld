@@ -4,5 +4,5 @@ import com.mmfsin.oneworld.domain.interfaces.IUsersRepository
 import javax.inject.Inject
 
 class CloseSessionUseCase @Inject constructor(private val repository: IUsersRepository) {
-    operator fun invoke() = repository.closeSession()
+    suspend operator fun invoke() = repository.closeSession()
 }

@@ -127,15 +127,20 @@ fun EditProfileContent(
 
             SpacerSmall()
 
-            MyTextField(uiState.name, { changeName(it) }, R.string.edit_profile_name)
+            MyTextField(
+                uiState.name, { changeName(it) },
+                R.string.edit_profile_name,
+                maxLength = 20
+            )
 
             SpacerSmall()
 
             MyTextField(
                 uiState.biography ?: "", { changeBio(it) },
                 label = R.string.edit_profile_biography,
-                minLines = 4,
+                minLines = 1,
                 maxLines = 4,
+                maxLength = 100,
                 singleLine = false,
                 imeAction = ImeAction.None
             )
@@ -173,6 +178,7 @@ fun EditProfileContent(
                     onClick = { saveChanges() },
                     text = R.string.edit_profile_save_data,
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = uiState.name.isNotBlank(),
                     textModifier = Modifier.padding(4.dp)
                 )
             }

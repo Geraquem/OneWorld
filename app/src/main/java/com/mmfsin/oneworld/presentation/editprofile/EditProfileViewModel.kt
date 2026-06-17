@@ -44,14 +44,13 @@ class EditProfileViewModel @Inject constructor(
     fun changeWebsite(website: String) = _uiState.update { it.copy(website = website) }
 
     fun saveProfileChanges() {
-
         _uiState.update { it.copy(isLoading = true) }
 
         val data = UpdateProfileData(
-            imageUrl = uiState.value.imageUrl,
+            imageUrl = uiState.value.imageUrl.checkIfEmpty(),
             name = uiState.value.name,
-            biography = uiState.value.biography,
-            website = uiState.value.website,
+            biography = uiState.value.biography.checkIfEmpty(),
+            website = uiState.value.website.checkIfEmpty(),
         )
 
         executeUseCase(
@@ -70,4 +69,6 @@ class EditProfileViewModel @Inject constructor(
             {},
         )
     }
+
+    private fun String?.checkIfEmpty(): String? = this?.ifBlank { null }
 }

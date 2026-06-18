@@ -34,7 +34,10 @@ fun ProfileScreenPV() {
 }
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), toolbarTitle: (String) -> Unit) {
+fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    toolbarTitle: (String) -> Unit,
+) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -43,7 +46,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), toolbarTitle: (
     ProfileContent(
         uiState = uiState,
         doLogin = { viewModel.doLogin(it) },
-        signInWithGoogle = { viewModel.signInWithGoogle() }
+        signInWithGoogle = { viewModel.signInWithGoogle() },
     )
 }
 
@@ -51,7 +54,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), toolbarTitle: (
 fun ProfileContent(
     uiState: ProfileStates,
     doLogin: (ActivityResult) -> Unit,
-    signInWithGoogle: () -> Intent
+    signInWithGoogle: () -> Intent,
 ) {
     val context = LocalContext.current
 

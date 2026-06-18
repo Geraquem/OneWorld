@@ -60,7 +60,10 @@ fun ProfileView(
 
             SpacerSmall()
 
-            UserProfileButtons(editProfile = { editProfile() }, createEvent = { createEvent() })
+            UserProfileButtons(
+                editProfile = { editProfile() },
+                createEvent = { createEvent() }
+            )
 
             SpacerSmall()
 
@@ -104,7 +107,7 @@ fun UserProfileButtons(editProfile: () -> Unit, createEvent: () -> Unit) {
         SpacerCustom(space = 8.dp, horizontal = true)
 
         ButtonCustom(
-            onClick = { editProfile() },
+            onClick = { createEvent() },
             text = R.string.profile_create_event,
             modifier = Modifier.weight(1f)
         )

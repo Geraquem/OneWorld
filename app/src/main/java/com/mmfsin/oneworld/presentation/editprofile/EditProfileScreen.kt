@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,17 +32,15 @@ import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.DialogLoading
-import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.MyTextField
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.theme.OrangeLight
-import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.presentation.core.theme.RedMedium
 import com.mmfsin.oneworld.presentation.editprofile.components.CloseSessionDialog
+import com.mmfsin.oneworld.utils.ImagePicker
 
 @Preview
 @Composable
@@ -54,7 +50,7 @@ fun EditProfileScreenPV() {
             isLoading = false,
         ),
         {}, {}, {}, {},
-        {}, {}, {}
+        {}, {}, {}, {}
     )
 }
 
@@ -65,6 +61,7 @@ fun EditProfileScreen(viewModel: EditProfileViewModel = hiltViewModel(), onBack:
         uiState = uiState,
         goBack = onBack,
         changeName = { viewModel.changeName(it) },
+        changeImage = { viewModel.changeImage(it) },
         changeBio = { viewModel.changeBio(it) },
         changeWebsite = { viewModel.changeWebsite(it) },
         saveChanges = { viewModel.saveProfileChanges() },
@@ -78,6 +75,7 @@ fun EditProfileContent(
     uiState: EditProfileStates,
     goBack: () -> Unit,
     changeName: (String) -> Unit,
+    changeImage: (String) -> Unit,
     changeBio: (String) -> Unit,
     changeWebsite: (String) -> Unit,
     saveChanges: () -> Unit,
@@ -91,7 +89,7 @@ fun EditProfileContent(
         modifier = Modifier.fillMaxWidth().background(GrayLight),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        Toolbar(iconVisible = true, R.string.profile_edit_profile) { goBack() }
+        //        Toolbar(iconVisible = true, R.string.profile_edit_profile) { goBack() }
 
         Column(
             modifier = Modifier.weight(1f).padding(horizontal = 16.dp).verticalScroll(rememberScrollState()),
@@ -104,26 +102,18 @@ fun EditProfileContent(
                 AsyncImage(
                     model = uiState.imageUrl,
                     contentDescription = null,
-                    modifier = Modifier.size(100.dp).clip(CircleShape).background(GrayLight)
+                    modifier = Modifier.size(120.dp).clip(CircleShape).background(GrayLight)
                         .border(2.dp, OrangeLight, CircleShape),
                     contentScale = ContentScale.Crop
                 )
             } else {
                 Image(
                     painterResource(R.drawable.gnome), null,
-                    modifier = Modifier.size(100.dp).clip(CircleShape)
+                    modifier = Modifier.size(120.dp).clip(CircleShape)
                 )
             }
 
-            SpacerSmall()
-
-            TextButton(onClick = {}) {
-                MediumText(
-                    R.string.edit_profile_image,
-                    color = OrangeMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+            ImagePicker(onImageSelected = { changeImage(it.toString()) })
 
             SpacerSmall()
 

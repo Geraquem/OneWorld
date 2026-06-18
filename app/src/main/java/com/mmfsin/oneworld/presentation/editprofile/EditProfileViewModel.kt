@@ -40,6 +40,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun changeName(name: String) = _uiState.update { it.copy(name = name) }
+    fun changeImage(uri: String) = _uiState.update { it.copy(imageUrl = uri) }
     fun changeBio(bio: String) = _uiState.update { it.copy(biography = bio) }
     fun changeWebsite(website: String) = _uiState.update { it.copy(website = website) }
 

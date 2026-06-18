@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,11 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.getExampleEvent
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
-import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayMedium
 
 @Preview
@@ -41,7 +38,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
     val totalElements = (uiState.events.size - 1)
     Column {
-        Toolbar(text = R.string.events_toolbar)
         if (uiState.isLoading) LoadingFullScreen()
         LazyColumn {
             uiState.events.forEachIndexed { i, event -> item { EventCard(event, i != totalElements) } }

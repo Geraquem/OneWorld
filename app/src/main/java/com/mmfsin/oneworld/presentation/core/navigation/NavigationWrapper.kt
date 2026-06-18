@@ -3,7 +3,6 @@ package com.mmfsin.oneworld.presentation.core.navigation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -11,8 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,9 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
-import com.mmfsin.oneworld.presentation.core.components.StatusBarColor
-import com.mmfsin.oneworld.presentation.core.theme.Black
-import com.mmfsin.oneworld.presentation.core.theme.RedHard
+import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.home.HomeScreen
 import com.mmfsin.oneworld.presentation.profile.ProfileScreen
 import com.mmfsin.oneworld.utils.BN_EDIT_ID
@@ -44,8 +43,10 @@ fun NavigationWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    StatusBarColor(RedHard)
+    var title by remember { mutableStateOf<Pair<String, Boolean>>(Pair("", false)) }
+
     Scaffold(
+        topBar = { Toolbar(text = title.first, boldText = title.second) },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->
@@ -61,8 +62,7 @@ fun NavigationWrapper() {
                         icon = { Icon(painter = item.icon, contentDescription = item.name) },
                         label = { Text(text = item.name) },
                         alwaysShowLabel = false,
-                        colors = NavigationBarItemDefaults.colors(
-                        )
+                        colors = NavigationBarItemDefaults.colors()
                     )
                 }
             }
@@ -73,9 +73,17 @@ fun NavigationWrapper() {
             startDestination = BN_HOME_ID,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = BN_HOME_ID) { HomeScreen() }
-            composable(route = BN_EDIT_ID) { AAAScreen() }
-            composable(route = BN_PROFILE_ID) { ProfileScreen() }
+            composable(route = BN_HOME_ID) {
+                title = Pair(stringResource(R.string.events_toolbar), false)
+                HomeScreen()
+            }
+            composable(route = BN_EDIT_ID) {
+                title = Pair(stringResource(R.string.create_event_toolbar), false)
+                AAAScreen()
+            }
+            composable(route = BN_PROFILE_ID) {
+                ProfileScreen(toolbarTitle = { title = Pair(it, true) })
+            }
         }
     }
 }

@@ -75,7 +75,7 @@ fun CreateEventContent(
     if (uiState.closeAndGoBack) goBack()
 
     Column(Modifier.fillMaxSize().background(Color.White)) {
-        Toolbar(iconVisible = true, R.string.create_event_toolbar) { goBack() }
+//        Toolbar(iconVisible = true, R.string.create_event_toolbar) { goBack() }
         Column(Modifier.padding(horizontal = 16.dp).weight(1f).verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(24.dp))
             OutlinedTextField(

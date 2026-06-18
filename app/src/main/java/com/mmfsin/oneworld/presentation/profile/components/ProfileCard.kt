@@ -56,8 +56,8 @@ fun ProfileCard(userProfile: UserProfile) {
     Column(
         modifier = Modifier.fillMaxWidth()
             .background(Color.White)
-            .padding(16.dp)
-            .padding(top = 16.dp)
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -102,11 +102,11 @@ fun ProfileCard(userProfile: UserProfile) {
 
         SpacerSmall()
 
-        Text(
-            text = userProfile.name,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold
-        )
+//        Text(
+//            text = userProfile.name,
+//            style = MaterialTheme.typography.titleLarge,
+//            fontWeight = FontWeight.SemiBold
+//        )
 
         userProfile.biography?.let { bio ->
             SpacerSmall()

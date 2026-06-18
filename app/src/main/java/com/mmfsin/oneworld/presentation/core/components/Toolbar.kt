@@ -1,23 +1,23 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.mmfsin.oneworld.presentation.core.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.oneworld.R
@@ -26,36 +26,59 @@ import com.mmfsin.oneworld.presentation.core.theme.White
 @Preview
 @Composable
 fun ToolbarPV() {
-    Toolbar(true, R.string.app_name)
+    Toolbar(text = "Toolbar", iconBackVisible = true, onBackClick = {}, rightIcon = R.drawable.ic_profile, onRightIconClick = {})
 }
 
 @Composable
 fun Toolbar(
-    iconVisible: Boolean = false,
-    text: Int = R.string.empty,
-    onClick: () -> Unit = {}
+    text: String = "",
+    boldText: Boolean = false,
+    iconBackVisible: Boolean = false,
+    onBackClick: () -> Unit = {},
+    rightIcon: Int? = null,
+    onRightIconClick: () -> Unit = {},
 ) {
-    Box(
-        modifier = Modifier.fillMaxWidth().background(White)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, top = 20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(Modifier.width(16.dp))
-            if (iconVisible) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.cd_arrow_back),
-                    modifier = Modifier.size(30.dp).clickable(onClick = { onClick() })
+    TopAppBar(
+        //        modifier = Modifier
+        //            .zIndex(1f)
+        //            .shadow(
+        //                elevation = 4.dp,
+        //                clip = false
+        //            ),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = White
+        ),
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = text,
+                    fontWeight = if (boldText) FontWeight.Bold else FontWeight.Normal,
+                    textAlign = if (boldText) TextAlign.Center else TextAlign.Start,
+                    modifier = Modifier.weight(1f).padding(start = if (iconBackVisible) 2.dp else 16.dp),
                 )
+
+                if (rightIcon != null) {
+                    IconButton(onClick = onRightIconClick, modifier = Modifier.padding(start = 0.dp)) {
+                        Icon(
+                            painter = painterResource(rightIcon),
+                            contentDescription = stringResource(R.string.empty),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
             }
-            Text(
-                text = stringResource(text),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(horizontal = if (iconVisible) 12.dp else 0.dp)
-            )
+        },
+
+        navigationIcon = {
+            if (iconBackVisible) {
+                IconButton(onClick = onBackClick, modifier = Modifier.padding(start = 0.dp)) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(R.string.cd_arrow_back),
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+            }
         }
-    }
+    )
 }

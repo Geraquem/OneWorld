@@ -34,9 +34,11 @@ fun ProfileScreenPV() {
 }
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), toolbarTitle: (String) -> Unit) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    toolbarTitle(uiState.userProfile?.name ?: "")
 
     ProfileContent(
         uiState = uiState,

@@ -91,7 +91,7 @@ fun EditProfileContent(
         modifier = Modifier.fillMaxWidth().background(GrayLight),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Toolbar(iconVisible = true, R.string.profile_edit_profile) { goBack() }
+//        Toolbar(iconVisible = true, R.string.profile_edit_profile) { goBack() }
 
         Column(
             modifier = Modifier.weight(1f).padding(horizontal = 16.dp).verticalScroll(rememberScrollState()),

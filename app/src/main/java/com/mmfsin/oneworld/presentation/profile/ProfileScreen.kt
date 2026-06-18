@@ -16,7 +16,7 @@ import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.profile.components.LoginScreen
 import com.mmfsin.oneworld.presentation.profile.components.ProfileView
 import com.mmfsin.oneworld.utils.CREATE_EVENT
-import com.mmfsin.oneworld.utils.EDIT_PROFILE
+import com.mmfsin.oneworld.utils.NAV_EDIT_PROFILE
 import com.mmfsin.oneworld.utils.openBedRockActivity
 
 @Preview(showBackground = true)
@@ -66,7 +66,7 @@ fun ProfileContent(
         ProfileView(
             profile = uiState.userProfile,
             events = uiState.eventsCreated,
-            editProfile = { context.openBedRockActivity(EDIT_PROFILE) },
+            editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
             createEvent = { context.openBedRockActivity(CREATE_EVENT) }
         )
     } else {

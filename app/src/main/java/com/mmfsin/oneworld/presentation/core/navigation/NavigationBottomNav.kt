@@ -43,10 +43,10 @@ fun NavigationWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    var title by remember { mutableStateOf<Pair<String, Boolean>>(Pair("", false)) }
+    var toolbarTitle by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
-        topBar = { Toolbar(text = title.first, boldText = title.second) },
+        topBar = { toolbarTitle?.let { title -> Toolbar(text = title) } },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->
@@ -74,15 +74,16 @@ fun NavigationWrapper() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = BN_HOME_ID) {
-                title = Pair(stringResource(R.string.events_toolbar), false)
+                toolbarTitle = stringResource(R.string.events_toolbar)
                 HomeScreen()
             }
             composable(route = BN_EDIT_ID) {
-                title = Pair(stringResource(R.string.create_event_toolbar), false)
+                toolbarTitle = stringResource(R.string.create_event_toolbar)
                 AAAScreen()
             }
             composable(route = BN_PROFILE_ID) {
-                ProfileScreen(toolbarTitle = { title = Pair(it, true) })
+                toolbarTitle = null
+                ProfileScreen()
             }
         }
     }

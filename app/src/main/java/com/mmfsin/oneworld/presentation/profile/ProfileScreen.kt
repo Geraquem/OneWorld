@@ -15,7 +15,7 @@ import com.mmfsin.oneworld.presentation.core.components.ErrorDialog
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.profile.components.LoginScreen
 import com.mmfsin.oneworld.presentation.profile.components.ProfileView
-import com.mmfsin.oneworld.utils.CREATE_EVENT
+import com.mmfsin.oneworld.utils.NAV_CREATE_EVENT
 import com.mmfsin.oneworld.utils.NAV_EDIT_PROFILE
 import com.mmfsin.oneworld.utils.openBedRockActivity
 
@@ -34,14 +34,9 @@ fun ProfileScreenPV() {
 }
 
 @Composable
-fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel(),
-    toolbarTitle: (String) -> Unit,
-) {
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    toolbarTitle(uiState.userProfile?.name ?: "")
 
     ProfileContent(
         uiState = uiState,
@@ -67,7 +62,7 @@ fun ProfileContent(
             profile = uiState.userProfile,
             events = uiState.eventsCreated,
             editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
-            createEvent = { context.openBedRockActivity(CREATE_EVENT) }
+            createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) }
         )
     } else {
         LoginScreen(

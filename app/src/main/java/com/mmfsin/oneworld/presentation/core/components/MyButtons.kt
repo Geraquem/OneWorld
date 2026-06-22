@@ -1,17 +1,26 @@
 package com.mmfsin.oneworld.presentation.core.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.oneworld.R
+import com.mmfsin.oneworld.presentation.core.theme.GrayMedium
 import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.presentation.core.theme.White
 
@@ -23,7 +32,11 @@ fun ButtonCustomPV() {
             onClick = {},
             text = R.string.app_name
         )
-
+        ButtonCustomIcon(
+            onClick = {},
+            text = R.string.app_name,
+            icon = R.drawable.ic_profile,
+        )
         OutlinedButtonCustom(
             onClick = {},
             text = R.string.app_name
@@ -50,6 +63,38 @@ fun ButtonCustom(
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
+        MediumText(
+            text = text,
+            color = textColor,
+            modifier = textModifier
+        )
+    }
+}
+
+@Composable
+fun ButtonCustomIcon(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    text: Int,
+    icon: Int,
+    enabled: Boolean = true,
+    color: Color = OrangeMedium,
+    textColor: Color = White
+) {
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(if (enabled) color else GrayMedium)
+            .clickable(onClick = { if (enabled) onClick() })
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(icon), null,
+            tint = White
+        )
+        SpacerSmall(horizontal = true)
         MediumText(
             text = text,
             color = textColor,

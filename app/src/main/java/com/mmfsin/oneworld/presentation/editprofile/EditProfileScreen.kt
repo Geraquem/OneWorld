@@ -36,7 +36,7 @@ import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.DialogLoading
-import com.mmfsin.oneworld.presentation.core.components.MyTextField
+import com.mmfsin.oneworld.presentation.core.components.MyOutlinedTextField
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
@@ -136,7 +136,7 @@ fun EditProfileContent(
 
                 SpacerSmall()
 
-                MyTextField(
+                MyOutlinedTextField(
                     uiState.name, { changeName(it) },
                     R.string.edit_profile_name,
                     maxLength = 20
@@ -144,7 +144,7 @@ fun EditProfileContent(
 
                 SpacerSmall()
 
-                MyTextField(
+                MyOutlinedTextField(
                     uiState.biography ?: "", { changeBio(it) },
                     label = R.string.edit_profile_biography,
                     minLines = 1,
@@ -156,7 +156,7 @@ fun EditProfileContent(
 
                 SpacerSmall()
 
-                MyTextField(
+                MyOutlinedTextField(
                     uiState.website ?: "", { changeWebsite(it) },
                     label = R.string.edit_profile_website,
                     imeAction = ImeAction.Done

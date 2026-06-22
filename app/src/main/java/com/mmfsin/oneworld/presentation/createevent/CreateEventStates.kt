@@ -5,9 +5,10 @@ data class CreateEventStates(
 
     val title: String = "",
     val description: String = "",
+    val time: Pair<String, String>? = null,
+    val date: String? = null,
 
     val showTimePicker: Boolean = false,
-    val time: Pair<String, String>? = null,
 
     val closeAndGoBack: Boolean = false
 )

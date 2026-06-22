@@ -23,6 +23,7 @@
     <string name="create_event_toolbar">Crear evento</string>
     <string name="create_event_title">Título del evento</string>
     <string name="create_event_description">Descripción</string>
+    <string name="create_event_web">Página web (opcional)</string>
     <string name="create_event_time_picker">Seleccionar hora</string>
     <string name="create_event_time_date">Seleccionar fecha</string>
     <string name="create_event_time_pickera_accept">Aceptar</string>

@@ -14,7 +14,8 @@ fun EventDTO.toEvent() = Event(
     creatorId = creatorId,
     creatorName = creatorName,
     address = address,
-    time = time
+    time = time,
+    webUrl = webUrl
 )
 
 fun List<EventDTO>.toEventList() = this.map { it.toEvent() }

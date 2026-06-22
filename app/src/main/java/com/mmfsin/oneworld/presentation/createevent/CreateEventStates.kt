@@ -5,10 +5,12 @@ data class CreateEventStates(
 
     val title: String = "",
     val description: String = "",
+    val webUrl: String = "",
     val time: Pair<String, String>? = null,
     val date: String? = null,
 
     val showTimePicker: Boolean = false,
+    val showDatePicker: Boolean = false,
 
     val closeAndGoBack: Boolean = false
 )

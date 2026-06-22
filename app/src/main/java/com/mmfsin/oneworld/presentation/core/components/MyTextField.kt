@@ -42,7 +42,6 @@ fun MyWhiteTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: Int,
-    textColor: Color = Black,
     singleLine: Boolean = true,
     minLines: Int = 1,
     maxLines: Int = 1,
@@ -97,7 +96,6 @@ fun MyOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: Int,
-    textColor: Color = Black,
     singleLine: Boolean = true,
     minLines: Int = 1,
     maxLines: Int = 1,
@@ -119,7 +117,6 @@ fun MyOutlinedTextField(
                 textStyle = MaterialTheme.typography.bodyLarge,
                 minLines = minLines,
                 maxLines = maxLines,
-
                 keyboardOptions = KeyboardOptions(
                     imeAction = imeAction,
                     capitalization = KeyboardCapitalization.Sentences

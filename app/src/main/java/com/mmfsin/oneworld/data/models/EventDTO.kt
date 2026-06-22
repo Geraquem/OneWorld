@@ -16,4 +16,5 @@ data class EventDTO(
     var creatorName: String = "",
     var time: String = "",
     var address: String = "",
+    var webUrl: String = "",
 )

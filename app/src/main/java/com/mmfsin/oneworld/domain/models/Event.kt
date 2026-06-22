@@ -10,6 +10,7 @@ data class Event(
     var creatorName: String,
     var time: String,
     var address: String,
+    var webUrl: String?,
 )
 
 fun getExampleEvent() = Event(
@@ -21,5 +22,6 @@ fun getExampleEvent() = Event(
     creatorId = "",
     creatorName = "",
     time = "",
-    address = ""
+    address = "",
+    webUrl = ""
 )

@@ -20,21 +20,21 @@ class CreateEventViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CreateEventStates())
     val uiState: StateFlow<CreateEventStates> = _uiState
 
-    fun onTitleChange(title: String) {
-        _uiState.update { it.copy(title = title) }
-    }
+    fun onTitleChange(title: String) = _uiState.update { it.copy(title = title) }
+    fun onDescriptionChange(description: String) = _uiState.update { it.copy(description = description) }
+    fun onWebUrlChange(url: String) = _uiState.update { it.copy(webUrl = url) }
 
-    fun onDescriptionChange(description: String) {
-        _uiState.update { it.copy(description = description) }
-    }
-
-    fun timePickerVisibility(visible: Boolean) {
-        _uiState.update { it.copy(showTimePicker = visible) }
-    }
+    fun timePickerVisibility(visible: Boolean) = _uiState.update { it.copy(showTimePicker = visible) }
+    fun datePickerVisibility(visible: Boolean) = _uiState.update { it.copy(showDatePicker = visible) }
 
     fun setEventTime(time: Pair<String, String>) {
         _uiState.update { it.copy(time = time) }
         timePickerVisibility(visible = false)
+    }
+
+    fun setEventDate(date: String) {
+        _uiState.update { it.copy(date = date) }
+        datePickerVisibility(visible = false)
     }
 
     fun createEvent() {
@@ -50,6 +50,7 @@ class CreateEventViewModel @Inject constructor(
             creatorName = "",
             time = uiState.value.time.toString(),
             address = "",
+            webUrl = uiState.value.webUrl.ifBlank { null }
         )
 
         viewModelScope.launch(Dispatchers.IO) {

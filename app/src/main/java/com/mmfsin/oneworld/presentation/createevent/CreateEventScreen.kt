@@ -14,17 +14,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,11 +36,13 @@ import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.MyWhiteTextField
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
+import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
+import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
-import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.presentation.core.theme.White
+import com.mmfsin.oneworld.presentation.createevent.components.MyCalendarPicker
 import com.mmfsin.oneworld.presentation.createevent.components.MyTimePicker
 
 @Preview
@@ -49,10 +52,12 @@ fun CreateEventScreenPV() {
         CreateEventStates(
             isLoading = false,
             time = Pair("12", "45"),
-            date = "14 de diciembre de 2025"
+            date = "14 de diciembre de 2025",
+            webUrl = "ñadjkñlakd"
         ),
-        {}, {}, {},
-        {}, {}, {},
+        {}, {}, {}, {},
+        {}, {}, {}, {},
+        {},
     )
 }
 
@@ -66,8 +71,11 @@ fun CreateEventScreen(viewModel: CreateEventViewModel = hiltViewModel()) {
         goBack = { },
         onTitleChange = { viewModel.onTitleChange(it) },
         onDescriptionChange = { viewModel.onDescriptionChange(it) },
+        onWebUrlChange = { viewModel.onWebUrlChange(it) },
         timePickerVisibility = { viewModel.timePickerVisibility(it) },
+        datePickerVisibility = { viewModel.datePickerVisibility(it) },
         setEventTime = { viewModel.setEventTime(it) },
+        setEventDate = { viewModel.setEventDate(it) },
         createEvent = { viewModel.createEvent() }
     )
 }
@@ -78,8 +86,11 @@ fun CreateEventContent(
     goBack: () -> Unit,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onWebUrlChange: (String) -> Unit,
     timePickerVisibility: (Boolean) -> Unit,
+    datePickerVisibility: (Boolean) -> Unit,
     setEventTime: (Pair<String, String>) -> Unit,
+    setEventDate: (String) -> Unit,
     createEvent: () -> Unit,
 ) {
 
@@ -101,7 +112,7 @@ fun CreateEventContent(
             MyWhiteTextField(
                 value = uiState.title, onValueChange = { onTitleChange(it) },
                 label = R.string.create_event_title,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             )
 
             SpacerSmall()
@@ -117,21 +128,50 @@ fun CreateEventContent(
 
             SpacerSmall()
 
+            MyWhiteTextField(
+                value = uiState.webUrl, onValueChange = { onWebUrlChange(it) },
+                label = R.string.create_event_web,
+                imeAction = ImeAction.Done,
+                maxLength = 50
+            )
+
+            SpacerSmall()
+
+            SmallText(text = R.string.create_event_time_date)
+            SpacerMini()
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
                     .background(White),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TextButton(onClick = { timePickerVisibility(true) }) {
-                    SmallText(
-                        text = R.string.create_event_time_picker,
-                        fontWeight = FontWeight.SemiBold,
-                        color = OrangeMedium
-                    )
+                IconButton(onClick = { datePickerVisibility(true) }) {
+                    Icon(painterResource(R.drawable.ic_calendar), null)
                 }
 
-                SpacerSmall(horizontal = true)
+                SpacerMedium(horizontal = true)
+
+                uiState.date?.let { date ->
+                    Text(text = date, style = MaterialTheme.typography.bodyLarge)
+                }
+            }
+
+            SpacerMedium()
+
+            SmallText(text = R.string.create_event_time_picker)
+            SpacerMini()
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(White),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                IconButton(onClick = { timePickerVisibility(true) }) {
+                    Icon(painterResource(R.drawable.ic_clock), null)
+                }
+
+                SpacerMedium(horizontal = true)
 
                 uiState.time?.let { time ->
                     Text(text = time.first, style = MaterialTheme.typography.bodyLarge)
@@ -140,36 +180,6 @@ fun CreateEventContent(
                 }
             }
 
-            SpacerSmall()
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(White),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TextButton(onClick = { timePickerVisibility(true) }) {
-                    SmallText(
-                        text = R.string.create_event_time_date,
-                        fontWeight = FontWeight.SemiBold,
-                        color = OrangeMedium
-                    )
-                }
-
-                uiState.date?.let { date ->
-                    Text(text = date, style = MaterialTheme.typography.bodyLarge)
-                }
-            }
-
-
-
-            if (uiState.showTimePicker) {
-                MyTimePicker(
-                    onDismiss = { timePickerVisibility(false) },
-                    onConfirm = { time -> setEventTime(time) }
-                )
-            }
-            Spacer(Modifier.height(8.dp))
 
             Spacer(Modifier.weight(1f))
 
@@ -181,5 +191,19 @@ fun CreateEventContent(
 
             SpacerLarge()
         }
+    }
+
+    if (uiState.showDatePicker) {
+        MyCalendarPicker(
+            onDismiss = { timePickerVisibility(false) },
+            onConfirm = { date -> setEventDate(date) }
+        )
+    }
+
+    if (uiState.showTimePicker) {
+        MyTimePicker(
+            onDismiss = { timePickerVisibility(false) },
+            onConfirm = { time -> setEventTime(time) }
+        )
     }
 }

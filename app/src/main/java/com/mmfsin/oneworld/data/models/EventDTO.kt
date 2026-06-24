@@ -8,7 +8,7 @@ import com.mmfsin.oneworld.utils.TABLE_EVENTS
 data class EventDTO(
     @PrimaryKey
     var id: String = "",
-    var type: String = "",
+    var category: Int = 0,
     var image: String = "",
     var title: String = "",
     var description: String = "",

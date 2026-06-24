@@ -152,14 +152,15 @@ fun CreateEventContent(
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(White),
+                    .background(White)
+                    .clickable(onClick = { datePickerVisibility(true) }),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { datePickerVisibility(true) }) {
                     Icon(painterResource(R.drawable.ic_calendar), null)
                 }
 
-                SpacerMedium(horizontal = true)
+                SpacerSmall(horizontal = true)
                 uiState.date?.let { date ->
                     Text(text = date.formatDateFromMillis(), style = MaterialTheme.typography.bodyLarge)
                 }
@@ -172,7 +173,8 @@ fun CreateEventContent(
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(White),
+                    .background(White)
+                    .clickable(onClick = { timePickerVisibility(true) }),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -180,7 +182,7 @@ fun CreateEventContent(
                     Icon(painterResource(R.drawable.ic_clock), null)
                 }
 
-                SpacerMedium(horizontal = true)
+                SpacerSmall(horizontal = true)
                 uiState.time?.let { time ->
                     Text(text = time.first.formatTime(), style = MaterialTheme.typography.bodyLarge)
                     Text(text = ":", style = MaterialTheme.typography.bodyLarge)
@@ -203,7 +205,7 @@ fun CreateEventContent(
                     Icon(painterResource(getCategoryById(uiState.categoryId).icon), null)
                 }
 
-                SpacerMedium(horizontal = true)
+                SpacerSmall(horizontal = true)
                 MediumText(getCategoryById(uiState.categoryId).title)
             }
 

@@ -2,7 +2,7 @@ package com.mmfsin.oneworld.domain.models
 
 data class Event(
     var id: String,
-    var type: String,
+    var category: Int,
     var image: String,
     var title: String,
     var description: String,
@@ -17,7 +17,7 @@ data class Event(
 
 fun getExampleEvent() = Event(
     id = "",
-    type = "",
+    category = 2,
     image = "",
     title = "Titulo de Evento",
     description = "Descripción de evento porque esto puede ser muy largo yuhu vamos allá",

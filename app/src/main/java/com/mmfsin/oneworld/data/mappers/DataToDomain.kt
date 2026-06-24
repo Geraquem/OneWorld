@@ -7,7 +7,7 @@ import com.mmfsin.oneworld.domain.models.UserProfile
 
 fun EventDTO.toEvent() = Event(
     id = id,
-    type = type,
+    category = category,
     title = title,
     description = description,
     webUrl = webUrl,

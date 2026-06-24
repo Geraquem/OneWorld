@@ -54,17 +54,17 @@ class CreateEventViewModel @Inject constructor(
         ) {
             val event = Event(
                 id = UUID.randomUUID().toString(),
-                type = "TEST",
+                category = state.categoryId,
                 image = "",
-                title = uiState.value.title,
-                description = uiState.value.description,
+                title = state.title,
+                description = state.description,
                 creatorId = "",
                 creatorName = "",
-                date = uiState.value.date ?: 0,
-                hour = uiState.value.time?.first ?: 0,
-                minutes = uiState.value.time?.second ?: 0,
+                date = state.date,
+                hour = state.time.first,
+                minutes = state.time.second,
                 address = "",
-                webUrl = uiState.value.webUrl.ifBlank { null }
+                webUrl = state.webUrl.ifBlank { null }
             )
 
             viewModelScope.launch(Dispatchers.IO) {

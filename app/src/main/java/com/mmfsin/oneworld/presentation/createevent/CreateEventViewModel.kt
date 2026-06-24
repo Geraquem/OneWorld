@@ -1,25 +1,17 @@
 package com.mmfsin.oneworld.presentation.createevent
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.usecases.CreateEventUseCase
+import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateEventViewModel @Inject constructor(
     private val createEventUseCase: CreateEventUseCase
-) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(CreateEventStates())
-    val uiState: StateFlow<CreateEventStates> = _uiState
+) : BaseViewModel<CreateEventStates>(CreateEventStates()) {
 
     fun onTitleChange(title: String) = _uiState.update { it.copy(title = title) }
     fun onDescriptionChange(description: String) = _uiState.update { it.copy(description = description) }
@@ -45,13 +37,13 @@ class CreateEventViewModel @Inject constructor(
     }
 
     fun createEvent() {
-        _uiState.update { it.copy(isLoading = true) }
-
         val state = uiState.value
         if (state.title.isNotBlank()
             && state.date != null
             && state.time != null
         ) {
+            _uiState.update { it.copy(isLoading = true) }
+
             val event = Event(
                 id = UUID.randomUUID().toString(),
                 category = state.categoryId,
@@ -67,14 +59,12 @@ class CreateEventViewModel @Inject constructor(
                 webUrl = state.webUrl.ifBlank { null }
             )
 
-            viewModelScope.launch(Dispatchers.IO) {
-                val result = createEventUseCase(event)
-                result.onSuccess { _uiState.update { it.copy(closeAndGoBack = true) } }
-                result.onFailure { }
-            }
+            executeUseCase(
+                { createEventUseCase(event) },
+                { _uiState.update { it.copy(closeAndGoBack = true) } },
+                {}
+            )
 
-        } else {
-            /** NO PERMITIR CREAR EVENTO */
-        }
+        } else _uiState.update { it.copy(missingFields = true) }
     }
 }

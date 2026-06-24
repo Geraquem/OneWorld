@@ -30,7 +30,9 @@
     <string name="create_event_time_picker_cancel">Cancelar</string>
     <string name="create_event_time_picker_confirm">Confirmar</string>
     <string name="create_event_select_type">Tipo de evento</string>
+    <string name="create_event_error">No están rellenos todos los campos necesarios (título, dirección, fecha y hora)</string>
     <string name="create_event_button">Crear evento</string>
+    <string name="create_event_creating_event">Creando evento…</string>
 
     <string name="category_no_specified">Sin especificar</string>
     <string name="category_no_specified_description">Sin especificar description</string>

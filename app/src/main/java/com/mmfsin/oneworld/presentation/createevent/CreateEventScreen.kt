@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.EventType.Companion.getCategoryById
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
+import com.mmfsin.oneworld.presentation.core.components.LoadingDialog
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.MyWhiteTextField
 import com.mmfsin.oneworld.presentation.core.components.SmallText
@@ -44,6 +45,7 @@ import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
+import com.mmfsin.oneworld.presentation.core.theme.RedMedium
 import com.mmfsin.oneworld.presentation.core.theme.White
 import com.mmfsin.oneworld.presentation.createevent.components.CategoryDialog
 import com.mmfsin.oneworld.presentation.createevent.components.MyCalendarPicker
@@ -59,6 +61,7 @@ fun CreateEventScreenPV() {
             isLoading = false,
             time = Pair(12, 45),
             date = 134537435,
+            missingFields = true
         ),
         {}, {}, {}, {},
         {}, {}, {}, {},
@@ -103,7 +106,10 @@ fun CreateEventContent(
     createEvent: () -> Unit,
 ) {
 
-    if (uiState.closeAndGoBack) goBack()
+    //    val context = LocalContext.current
+    //    val activity = context as Activity
+    //
+    //    if (uiState.closeAndGoBack) activity.finish()
 
     Scaffold(
         topBar = { Toolbar(text = stringResource(R.string.create_event_toolbar)) }
@@ -211,6 +217,22 @@ fun CreateEventContent(
 
             Spacer(Modifier.weight(1f))
 
+            if (uiState.missingFields) {
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(RedMedium)
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(painterResource(R.drawable.ic_info), null, tint = White)
+                        SpacerMedium(horizontal = true)
+                        SmallText(text = R.string.create_event_error, color = White)
+                    }
+                    SpacerSmall()
+                }
+            }
             ButtonCustom(
                 onClick = { createEvent() },
                 modifier = Modifier.fillMaxWidth(),
@@ -242,4 +264,6 @@ fun CreateEventContent(
             selected = { updateCategory(it) }
         )
     }
+
+    if (uiState.isLoading) LoadingDialog(text = R.string.create_event_creating_event)
 }

@@ -35,7 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
-import com.mmfsin.oneworld.presentation.core.components.DialogLoading
+import com.mmfsin.oneworld.presentation.core.components.LoadingDialog
 import com.mmfsin.oneworld.presentation.core.components.MyOutlinedTextField
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
@@ -200,6 +200,6 @@ fun EditProfileContent(
             )
         }
 
-        if (uiState.isLoading) DialogLoading(text = R.string.edit_profile_updating)
+        if (uiState.isLoading) LoadingDialog(text = R.string.edit_profile_updating)
     }
 }

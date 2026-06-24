@@ -48,8 +48,8 @@ fun CategoryDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                         .background(if (it.id == actualCategory) GreenLight else White)
-                        .padding(16.dp)
-                        .clickable(onClick = { selected(it.id) }),
+                        .clickable(onClick = { selected(it.id) })
+                        .padding(16.dp),
                 ) {
                     Image(painter = painterResource(it.icon), null)
                     SpacerMedium(horizontal = true)

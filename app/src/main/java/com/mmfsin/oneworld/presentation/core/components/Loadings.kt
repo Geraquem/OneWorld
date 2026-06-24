@@ -36,7 +36,7 @@ fun LoadingFullScreen() {
 
 @Preview
 @Composable
-fun MiniLoading() {
+fun LoadingMini() {
     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
             Modifier.size(40.dp),
@@ -49,12 +49,12 @@ fun MiniLoading() {
 
 @Preview
 @Composable
-fun DialogLoadingPV() {
-    DialogLoading(R.string.app_name)
+fun LoadingDialogPV() {
+    LoadingDialog(R.string.app_name)
 }
 
 @Composable
-fun DialogLoading(text: Int? = null) {
+fun LoadingDialog(text: Int? = null) {
     Dialog(onDismissRequest = {}) {
         Box(
             modifier = Modifier.size(200.dp)
@@ -72,9 +72,7 @@ fun DialogLoading(text: Int? = null) {
 
                 text?.let {
                     SpacerLarge()
-                    SmallText(
-                        text = it
-                    )
+                    SmallText(text = it)
                 }
             }
         }

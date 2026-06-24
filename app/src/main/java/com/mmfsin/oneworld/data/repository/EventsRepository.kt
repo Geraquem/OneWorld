@@ -3,6 +3,7 @@ package com.mmfsin.oneworld.data.repository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmfsin.oneworld.data.ddbb.SharedPrefs
 import com.mmfsin.oneworld.data.ddbb.daos.EventsDAO
+import com.mmfsin.oneworld.data.ddbb.daos.UsersDAO
 import com.mmfsin.oneworld.data.mappers.toEvent
 import com.mmfsin.oneworld.data.mappers.toEventList
 import com.mmfsin.oneworld.data.models.EventDTO
@@ -18,7 +19,8 @@ import kotlin.coroutines.resume
 
 class EventsRepository @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val eventsDAO: EventsDAO
+    private val eventsDAO: EventsDAO,
+    private val usersDAO: UsersDAO
 ) : IEventsRepository {
 
     //        override suspend fun getEvents(): List<Event>? {
@@ -40,20 +42,20 @@ class EventsRepository @Inject constructor(
         }
     }
 
-    override suspend fun createEvent(event: Event): Result<Unit> {
-        return try {
-            val id = UUID.randomUUID().toString()
-
-            FirebaseFirestore.getInstance()
-                .collection(EVENTS)
-                .document(id)
-                .set(event)
-                .await()
-            Result.success(Unit)
-
-        } catch (e: Exception) {
-            Result.failure(e)
+    override suspend fun createEvent(event: Event) {
+        val user = usersDAO.getActiveUser()
+        user?.let {
+            event.copy(
+                creatorId = user.id,
+                creatorName = user.name
+            )
         }
+
+        FirebaseFirestore.getInstance()
+            .collection(EVENTS)
+            .document(event.id)
+            .set(event)
+            .await()
     }
 
     override suspend fun getUserEvents(userId: String): List<Event>? {

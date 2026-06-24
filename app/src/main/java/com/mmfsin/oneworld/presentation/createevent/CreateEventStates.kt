@@ -14,5 +14,6 @@ data class CreateEventStates(
     val showDatePicker: Boolean = false,
     val showCategoryDialog: Boolean = false,
 
+    val missingFields: Boolean = false,
     val closeAndGoBack: Boolean = false
 )

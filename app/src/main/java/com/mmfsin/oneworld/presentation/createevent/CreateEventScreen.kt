@@ -3,6 +3,7 @@
 package com.mmfsin.oneworld.presentation.createevent
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.oneworld.R
+import com.mmfsin.oneworld.domain.models.EventType.Companion.getCategoryById
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
+import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.MyWhiteTextField
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
@@ -42,8 +45,11 @@ import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.theme.White
+import com.mmfsin.oneworld.presentation.createevent.components.CategoryDialog
 import com.mmfsin.oneworld.presentation.createevent.components.MyCalendarPicker
 import com.mmfsin.oneworld.presentation.createevent.components.MyTimePicker
+import com.mmfsin.oneworld.utils.formatDateFromMillis
+import com.mmfsin.oneworld.utils.formatTime
 
 @Preview
 @Composable
@@ -51,13 +57,12 @@ fun CreateEventScreenPV() {
     CreateEventContent(
         CreateEventStates(
             isLoading = false,
-            time = Pair("12", "45"),
-            date = "14 de diciembre de 2025",
-            webUrl = "ñadjkñlakd"
+            time = Pair(12, 45),
+            date = 134537435,
         ),
         {}, {}, {}, {},
         {}, {}, {}, {},
-        {},
+        {}, {}, {},
     )
 }
 
@@ -76,6 +81,8 @@ fun CreateEventScreen(viewModel: CreateEventViewModel = hiltViewModel()) {
         datePickerVisibility = { viewModel.datePickerVisibility(it) },
         setEventTime = { viewModel.setEventTime(it) },
         setEventDate = { viewModel.setEventDate(it) },
+        categoryDialogVisibility = { viewModel.categoryDialogVisibility(it) },
+        updateCategory = { viewModel.updateCategory(it) },
         createEvent = { viewModel.createEvent() }
     )
 }
@@ -89,8 +96,10 @@ fun CreateEventContent(
     onWebUrlChange: (String) -> Unit,
     timePickerVisibility: (Boolean) -> Unit,
     datePickerVisibility: (Boolean) -> Unit,
-    setEventTime: (Pair<String, String>) -> Unit,
-    setEventDate: (String) -> Unit,
+    setEventTime: (Pair<Int, Int>) -> Unit,
+    setEventDate: (Long) -> Unit,
+    categoryDialogVisibility: (Boolean) -> Unit,
+    updateCategory: (Int) -> Unit,
     createEvent: () -> Unit,
 ) {
 
@@ -122,6 +131,7 @@ fun CreateEventContent(
                 label = R.string.create_event_description,
                 imeAction = ImeAction.None,
                 singleLine = false,
+                minLines = 2,
                 maxLines = 15,
                 maxLength = 500
             )
@@ -150,9 +160,8 @@ fun CreateEventContent(
                 }
 
                 SpacerMedium(horizontal = true)
-
                 uiState.date?.let { date ->
-                    Text(text = date, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = date.formatDateFromMillis(), style = MaterialTheme.typography.bodyLarge)
                 }
             }
 
@@ -172,14 +181,31 @@ fun CreateEventContent(
                 }
 
                 SpacerMedium(horizontal = true)
-
                 uiState.time?.let { time ->
-                    Text(text = time.first, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = time.first.formatTime(), style = MaterialTheme.typography.bodyLarge)
                     Text(text = ":", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = time.second, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = time.second.formatTime(), style = MaterialTheme.typography.bodyLarge)
                 }
             }
 
+            SpacerMedium()
+
+            SmallText(text = R.string.create_event_select_type)
+            SpacerMini()
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(White)
+                    .clickable(onClick = { categoryDialogVisibility(true) }),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { categoryDialogVisibility(true) }) {
+                    Icon(painterResource(getCategoryById(uiState.categoryId).icon), null)
+                }
+
+                SpacerMedium(horizontal = true)
+                MediumText(getCategoryById(uiState.categoryId).title)
+            }
 
             Spacer(Modifier.weight(1f))
 
@@ -195,7 +221,7 @@ fun CreateEventContent(
 
     if (uiState.showDatePicker) {
         MyCalendarPicker(
-            onDismiss = { timePickerVisibility(false) },
+            onDismiss = { datePickerVisibility(false) },
             onConfirm = { date -> setEventDate(date) }
         )
     }
@@ -204,6 +230,14 @@ fun CreateEventContent(
         MyTimePicker(
             onDismiss = { timePickerVisibility(false) },
             onConfirm = { time -> setEventTime(time) }
+        )
+    }
+
+    if (uiState.showCategoryDialog) {
+        CategoryDialog(
+            onDismiss = { categoryDialogVisibility(false) },
+            actualCategory = uiState.categoryId,
+            selected = { updateCategory(it) }
         )
     }
 }

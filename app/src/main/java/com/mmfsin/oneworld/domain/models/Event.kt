@@ -6,11 +6,13 @@ data class Event(
     var image: String,
     var title: String,
     var description: String,
+    var webUrl: String?,
     var creatorId: String,
     var creatorName: String,
-    var time: String,
+    var date: Long,
+    var hour: Int,
+    var minutes: Int,
     var address: String,
-    var webUrl: String?,
 )
 
 fun getExampleEvent() = Event(
@@ -21,7 +23,9 @@ fun getExampleEvent() = Event(
     description = "Descripción de evento porque esto puede ser muy largo yuhu vamos allá",
     creatorId = "",
     creatorName = "",
-    time = "",
+    date = 0,
+    hour = 12,
+    minutes = 34,
     address = "",
-    webUrl = ""
+    webUrl = null
 )

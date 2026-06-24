@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,37 +27,54 @@ class CreateEventViewModel @Inject constructor(
 
     fun timePickerVisibility(visible: Boolean) = _uiState.update { it.copy(showTimePicker = visible) }
     fun datePickerVisibility(visible: Boolean) = _uiState.update { it.copy(showDatePicker = visible) }
+    fun categoryDialogVisibility(visible: Boolean) = _uiState.update { it.copy(showCategoryDialog = visible) }
 
-    fun setEventTime(time: Pair<String, String>) {
+    fun setEventTime(time: Pair<Int, Int>) {
         _uiState.update { it.copy(time = time) }
         timePickerVisibility(visible = false)
     }
 
-    fun setEventDate(date: String) {
+    fun setEventDate(date: Long) {
         _uiState.update { it.copy(date = date) }
         datePickerVisibility(visible = false)
+    }
+
+    fun updateCategory(categoryId: Int) {
+        _uiState.update { it.copy(categoryId = categoryId) }
+        categoryDialogVisibility(false)
     }
 
     fun createEvent() {
         _uiState.update { it.copy(isLoading = true) }
 
-        val event = Event(
-            id = "",
-            type = "TEST",
-            image = "",
-            title = uiState.value.title,
-            description = uiState.value.description,
-            creatorId = "",
-            creatorName = "",
-            time = uiState.value.time.toString(),
-            address = "",
-            webUrl = uiState.value.webUrl.ifBlank { null }
-        )
+        val state = uiState.value
+        if (state.title.isNotBlank()
+            && state.date != null
+            && state.time != null
+        ) {
+            val event = Event(
+                id = UUID.randomUUID().toString(),
+                type = "TEST",
+                image = "",
+                title = uiState.value.title,
+                description = uiState.value.description,
+                creatorId = "",
+                creatorName = "",
+                date = uiState.value.date ?: 0,
+                hour = uiState.value.time?.first ?: 0,
+                minutes = uiState.value.time?.second ?: 0,
+                address = "",
+                webUrl = uiState.value.webUrl.ifBlank { null }
+            )
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = createEventUseCase(event)
-            result.onSuccess { _uiState.update { it.copy(closeAndGoBack = true) } }
-            result.onFailure { }
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = createEventUseCase(event)
+                result.onSuccess { _uiState.update { it.copy(closeAndGoBack = true) } }
+                result.onFailure { }
+            }
+
+        } else {
+            /** NO PERMITIR CREAR EVENTO */
         }
     }
 }

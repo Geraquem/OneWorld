@@ -26,10 +26,22 @@
     <string name="create_event_web">Página web (opcional)</string>
     <string name="create_event_time_picker">Seleccionar hora</string>
     <string name="create_event_time_date">Seleccionar fecha</string>
-    <string name="create_event_time_pickera_accept">Aceptar</string>
-    <string name="create_event_time_pickera_cancel">Cancelar</string>
+    <string name="create_event_time_picker_accept">Aceptar</string>
+    <string name="create_event_time_picker_cancel">Cancelar</string>
     <string name="create_event_time_picker_confirm">Confirmar</string>
+    <string name="create_event_select_type">Tipo de evento</string>
     <string name="create_event_button">Crear evento</string>
+
+    <string name="category_no_specified">Sin especificar</string>
+    <string name="category_no_specified_description">Sin especificar description</string>
+    <string name="category_social">Social</string>
+    <string name="category_social_description">Social description</string>
+    <string name="category_environmental">Medioambiental</string>
+    <string name="category_environmental_description">Medioambiental description</string>
+    <string name="category_workshop">Talleres</string>
+    <string name="category_workshop_description">Talleres description</string>
+    <string name="category_farming">Agricultura</string>
+    <string name="category_farming_description">Agricultura description</string>
 
     <!-- PROFILE -->
     <string name="profile_created_events">%s Eventos creados</string>

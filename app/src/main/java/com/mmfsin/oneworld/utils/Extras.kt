@@ -16,6 +16,10 @@ import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.BedRockActivity
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun Context.openBedRockActivity(screen: String, strArgs: String? = null) {
     val intent = Intent(this, BedRockActivity::class.java)
@@ -38,7 +42,7 @@ fun ImagePicker(onImageSelected: (Uri) -> Unit) {
         contract = ActivityResultContracts.GetContent()
     ) { uri -> uri?.let { onImageSelected(it) } }
 
-    TextButton(onClick = {launcher.launch("image/*")}) {
+    TextButton(onClick = { launcher.launch("image/*") }) {
         MediumText(
             R.string.edit_profile_image,
             color = OrangeMedium,
@@ -46,3 +50,17 @@ fun ImagePicker(onImageSelected: (Uri) -> Unit) {
         )
     }
 }
+
+fun Long.formatDateFromMillis(): String {
+    return Instant.ofEpochMilli(this)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+        .format(
+            DateTimeFormatter.ofPattern(
+                "dd 'de' MMMM 'de' yyyy",
+                Locale("es", "ES")
+            )
+        )
+}
+
+fun Int.formatTime(): String = "%02d".format(Locale.US, this)

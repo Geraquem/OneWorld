@@ -12,9 +12,11 @@ data class EventDTO(
     var image: String = "",
     var title: String = "",
     var description: String = "",
+    var webUrl: String? = null,
     var creatorId: String = "",
     var creatorName: String = "",
-    var time: String = "",
+    var date: Long = 0,
+    var hour: Int = 0,
+    var minutes: Int = 0,
     var address: String = "",
-    var webUrl: String = "",
 )

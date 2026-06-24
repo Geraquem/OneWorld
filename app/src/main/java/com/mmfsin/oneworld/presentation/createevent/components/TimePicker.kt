@@ -23,7 +23,6 @@ import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
-import java.util.Locale
 
 @Preview
 @Composable
@@ -34,7 +33,7 @@ fun MyTimePickerPV() {
 @Composable
 fun MyTimePicker(
     onDismiss: () -> Unit,
-    onConfirm: (Pair<String, String>) -> Unit,
+    onConfirm: (Pair<Int, Int>) -> Unit,
 ) {
     val timePickerState = rememberTimePickerState(
         initialHour = 14,
@@ -57,19 +56,18 @@ fun MyTimePicker(
             ) {
                 TextButton(onClick = { onDismiss() }) {
                     SmallText(
-                        text = R.string.create_event_time_pickera_cancel,
+                        text = R.string.create_event_time_picker_cancel,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
 
-                TextButton(onClick = {
-                    val hour = "%02d".format(Locale.US, timePickerState.hour)
-                    val minute = "%02d".format(Locale.US, timePickerState.minute)
+                SpacerSmall(horizontal = true)
 
-                    onConfirm(Pair(hour, minute))
+                TextButton(onClick = {
+                    onConfirm(Pair(timePickerState.hour, timePickerState.minute))
                 }) {
                     SmallText(
-                        text = R.string.create_event_time_pickera_accept,
+                        text = R.string.create_event_time_picker_accept,
                         fontWeight = FontWeight.SemiBold
                     )
                 }

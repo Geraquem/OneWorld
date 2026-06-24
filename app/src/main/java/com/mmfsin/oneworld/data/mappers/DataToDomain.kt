@@ -10,12 +10,14 @@ fun EventDTO.toEvent() = Event(
     type = type,
     title = title,
     description = description,
+    webUrl = webUrl,
     image = image,
     creatorId = creatorId,
     creatorName = creatorName,
     address = address,
-    time = time,
-    webUrl = webUrl
+    date = date,
+    hour = hour,
+    minutes = minutes
 )
 
 fun List<EventDTO>.toEventList() = this.map { it.toEvent() }

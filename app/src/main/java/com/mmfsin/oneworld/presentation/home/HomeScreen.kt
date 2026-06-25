@@ -58,7 +58,9 @@ fun EventCard(event: Event, showDivider: Boolean) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(text = event.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(6.dp))
-            Text(text = event.description, style = MaterialTheme.typography.bodyLarge)
+            event.description?.let { d->
+                Text(text = d, style = MaterialTheme.typography.bodyLarge)
+            }
             Spacer(Modifier.height(12.dp))
         }
         if (showDivider) Spacer(Modifier.fillMaxWidth().height(16.dp).background(GrayMedium))

@@ -5,7 +5,7 @@ data class Event(
     var category: Int,
     var image: String,
     var title: String,
-    var description: String,
+    var description: String?,
     var webUrl: String?,
     var creatorId: String,
     var creatorName: String,

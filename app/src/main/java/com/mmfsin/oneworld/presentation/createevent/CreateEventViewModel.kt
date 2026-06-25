@@ -49,7 +49,7 @@ class CreateEventViewModel @Inject constructor(
                 category = state.categoryId,
                 image = "",
                 title = state.title,
-                description = state.description,
+                description = state.description.ifBlank { null },
                 creatorId = "",
                 creatorName = "",
                 date = state.date,

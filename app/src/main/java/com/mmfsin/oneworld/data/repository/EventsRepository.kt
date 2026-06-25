@@ -5,6 +5,7 @@ import com.mmfsin.oneworld.data.ddbb.SharedPrefs
 import com.mmfsin.oneworld.data.ddbb.daos.EventsDAO
 import com.mmfsin.oneworld.data.ddbb.daos.UsersDAO
 import com.mmfsin.oneworld.data.mappers.toEvent
+import com.mmfsin.oneworld.data.mappers.toEventDTO
 import com.mmfsin.oneworld.data.mappers.toEventList
 import com.mmfsin.oneworld.data.models.EventDTO
 import com.mmfsin.oneworld.domain.interfaces.IEventsRepository
@@ -43,18 +44,19 @@ class EventsRepository @Inject constructor(
     }
 
     override suspend fun createEvent(event: Event) {
-        val user = usersDAO.getActiveUser()
-        user?.let {
-            event.copy(
-                creatorId = user.id,
-                creatorName = user.name
-            )
-        }
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val updatedEvent = event.copy(
+            creatorId = user.id,
+            creatorName = user.name
+        )
+
+        eventsDAO.insertSingleEvent(updatedEvent.toEventDTO())
 
         FirebaseFirestore.getInstance()
             .collection(EVENTS)
             .document(event.id)
-            .set(event)
+            .set(updatedEvent)
             .await()
     }
 

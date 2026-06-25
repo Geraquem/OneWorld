@@ -11,7 +11,7 @@ data class EventDTO(
     var category: Int = 0,
     var image: String = "",
     var title: String = "",
-    var description: String = "",
+    var description: String? = null,
     var webUrl: String? = null,
     var creatorId: String = "",
     var creatorName: String = "",

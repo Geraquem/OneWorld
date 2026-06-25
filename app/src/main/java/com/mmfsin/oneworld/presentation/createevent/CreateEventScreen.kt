@@ -2,6 +2,7 @@
 
 package com.mmfsin.oneworld.presentation.createevent
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -106,10 +108,10 @@ fun CreateEventContent(
     createEvent: () -> Unit,
 ) {
 
-    //    val context = LocalContext.current
-    //    val activity = context as Activity
-    //
-    //    if (uiState.closeAndGoBack) activity.finish()
+        val context = LocalContext.current
+        val activity = context as Activity
+
+        if (uiState.closeAndGoBack) activity.finish()
 
     Scaffold(
         topBar = { Toolbar(text = stringResource(R.string.create_event_toolbar)) }

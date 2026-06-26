@@ -15,12 +15,13 @@ const val SP_USER_EVENTS_SERVER = "sp_user_events_server"
 const val BEDROCK_NAV_GRAPH = "bedrock_screen_nav_graph"
 const val NAV_EDIT_PROFILE = "nav_edit_profile"
 const val NAV_CREATE_EVENT = "nav_create_event"
+const val NAV_USER_PROFILE = "nav_user_profile"
 
 const val BEDROCK_SCREEN_ARGS = "bedrock_screen_args"
 const val BEDROCK_STR_ARGS = "bedrock_str_args"
 
 /** BOTTOM NAV */
-const val BN_HOME_ID = "bottom_nav_home_id"
+const val BN_EVENTS_ID = "bottom_nav_home_id"
 const val BN_EDIT_ID = "bottom_nav_edit_id"
 const val BN_PROFILE_ID = "bottom_nav_profile_id"
 

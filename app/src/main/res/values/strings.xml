@@ -12,7 +12,7 @@
     <string name="cd_arrow_back">Atrás</string>
 
     <!-- BOTTOM NAV -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_events">Eventos</string>
     <string name="bottom_nav_edit">Editar</string>
     <string name="bottom_nav_profile">Perfil</string>
 

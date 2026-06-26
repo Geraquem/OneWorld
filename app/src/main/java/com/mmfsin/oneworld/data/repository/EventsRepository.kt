@@ -60,7 +60,7 @@ class EventsRepository @Inject constructor(
             .await()
     }
 
-    override suspend fun getUserEvents(userId: String): List<Event>? {
+    override suspend fun getMyEventsCreated(userId: String): List<Event>? {
         return if (sharedPrefs.checkUserEventsFromServer()) {
             val db = FirebaseFirestore.getInstance()
             val snapshot = db.collection(EVENTS).whereEqualTo(CREATOR_ID, userId).get().await()

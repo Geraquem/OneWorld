@@ -6,12 +6,12 @@ import com.mmfsin.oneworld.domain.models.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface IUsersRepository {
-    fun checkIfUserLogged(): Boolean
+    fun checkIfLogged(): Boolean
     fun signInWithGoogle(): Intent
-    suspend fun getOrCreateUser(name: String, email: String)
+    suspend fun getOrCreateProfile(name: String, email: String)
 
-    fun getUserProfile(): Flow<UserProfile?>
-    suspend fun editUserProfile(data: UpdateProfileData)
+    fun getMyProfile(): Flow<UserProfile?>
+    suspend fun editMyProfile(data: UpdateProfileData)
 
     suspend fun closeSession()
 }

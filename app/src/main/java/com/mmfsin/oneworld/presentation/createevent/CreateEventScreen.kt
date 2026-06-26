@@ -108,10 +108,10 @@ fun CreateEventContent(
     createEvent: () -> Unit,
 ) {
 
-        val context = LocalContext.current
-        val activity = context as Activity
+    val context = LocalContext.current
+    val activity = context as Activity
 
-        if (uiState.closeAndGoBack) activity.finish()
+    if (uiState.closeAndGoBack) activity.finish()
 
     Scaffold(
         topBar = { Toolbar(text = stringResource(R.string.create_event_toolbar)) }
@@ -170,7 +170,7 @@ fun CreateEventContent(
 
                 SpacerSmall(horizontal = true)
                 uiState.date?.let { date ->
-                    Text(text = date.formatDateFromMillis(), style = MaterialTheme.typography.bodyLarge)
+                    MediumText(text = date.formatDateFromMillis())
                 }
             }
 
@@ -192,9 +192,9 @@ fun CreateEventContent(
 
                 SpacerSmall(horizontal = true)
                 uiState.time?.let { time ->
-                    Text(text = time.first.formatTime(), style = MaterialTheme.typography.bodyLarge)
-                    Text(text = ":", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = time.second.formatTime(), style = MaterialTheme.typography.bodyLarge)
+                    MediumText(text = time.first.formatTime())
+                    MediumText(text = ":")
+                    MediumText(text = time.second.formatTime())
                 }
             }
 

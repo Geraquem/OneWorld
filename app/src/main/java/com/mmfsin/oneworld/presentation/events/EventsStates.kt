@@ -1,8 +1,8 @@
-package com.mmfsin.oneworld.presentation.home
+package com.mmfsin.oneworld.presentation.events
 
 import com.mmfsin.oneworld.domain.models.Event
 
-data class HomeStates(
+data class EventsStates(
     val events: List<Event> = emptyList(),
     val isLoading: Boolean = false
 )

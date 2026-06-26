@@ -23,10 +23,10 @@ import com.mmfsin.oneworld.utils.openBedRockActivity
 @Composable
 fun ProfileScreenPV() {
     ProfileContent(
-        ProfileStates(
+        MyProfileStates(
             isLoading = false,
             userLogged = true,
-            userProfile = UserProfile(
+            myProfile = UserProfile(
                 name = "Juan"
             )
         ),
@@ -34,7 +34,7 @@ fun ProfileScreenPV() {
 }
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
+fun ProfileScreen(viewModel: MyProfileViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -47,7 +47,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 
 @Composable
 fun ProfileContent(
-    uiState: ProfileStates,
+    uiState: MyProfileStates,
     doLogin: (ActivityResult) -> Unit,
     signInWithGoogle: () -> Intent,
 ) {
@@ -57,9 +57,9 @@ fun ProfileContent(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result -> doLogin(result) }
 
-    if (uiState.userLogged && uiState.userProfile != null) {
+    if (uiState.userLogged && uiState.myProfile != null) {
         ProfileView(
-            profile = uiState.userProfile,
+            profile = uiState.myProfile,
             events = uiState.eventsCreated,
             editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
             createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) }

@@ -3,8 +3,8 @@ package com.mmfsin.oneworld.presentation.editprofile
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.oneworld.domain.models.UpdateProfileData
 import com.mmfsin.oneworld.domain.usecases.CloseSessionUseCase
-import com.mmfsin.oneworld.domain.usecases.EditUserProfileUseCase
-import com.mmfsin.oneworld.domain.usecases.GetUserProfileUseCase
+import com.mmfsin.oneworld.domain.usecases.EditMyProfileUseCase
+import com.mmfsin.oneworld.domain.usecases.GetMyProfileUseCase
 import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val editUserProfileUseCase: EditUserProfileUseCase,
+    private val getMyProfileUseCase: GetMyProfileUseCase,
+    private val editMyProfileUseCase: EditMyProfileUseCase,
     private val closeSessionUseCase: CloseSessionUseCase,
 ) : BaseViewModel<EditProfileStates>(EditProfileStates()) {
 
@@ -24,7 +24,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private fun observeUserProfile() {
-        getUserProfileUseCase().onEach { profile ->
+        getMyProfileUseCase().onEach { profile ->
             if (profile != null) {
                 _uiState.update {
                     it.copy(
@@ -55,7 +55,7 @@ class EditProfileViewModel @Inject constructor(
         )
 
         executeUseCase(
-            { editUserProfileUseCase(data) },
+            { editMyProfileUseCase(data) },
             { _uiState.update { it.copy(flowCompleted = true) } },
             {}
         )

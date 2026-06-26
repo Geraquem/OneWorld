@@ -6,5 +6,5 @@ interface IEventsRepository {
     suspend fun getEvents(): List<Event>?
     suspend fun createEvent(event: Event)
 
-    suspend fun getUserEvents(userId: String): List<Event>?
+    suspend fun getMyEventsCreated(userId: String): List<Event>?
 }

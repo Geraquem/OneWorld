@@ -1,7 +1,5 @@
 package com.mmfsin.oneworld.presentation.profile.components
 
-import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,8 +15,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,17 +25,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.UserProfile
+import com.mmfsin.oneworld.presentation.core.components.BigText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.theme.White
+import com.mmfsin.oneworld.utils.openLink
 
 @Preview
 @Composable
@@ -69,10 +65,9 @@ fun ProfileCard(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            BigText(
                 userProfile.name,
                 fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleLarge
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -123,17 +118,17 @@ fun ProfileCard(
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                            BigText("0", fontWeight = FontWeight.SemiBold)
                             SmallText(R.string.profile_events)
                         }
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                            BigText("0", fontWeight = FontWeight.SemiBold)
                             SmallText(R.string.profile_assisted)
                         }
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("0", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                            BigText("0", fontWeight = FontWeight.SemiBold)
                             SmallText(R.string.profile_assisted)
                         }
                     }
@@ -143,24 +138,17 @@ fun ProfileCard(
 
                 userProfile.biography?.let { bio ->
                     SpacerSmall()
-                    Text(text = bio)
+                    SmallText(text = bio)
                 }
 
                 userProfile.website?.let { web ->
                     SpacerSmall()
-                    Text(
+                    SmallText(
                         text = web,
                         fontWeight = FontWeight.SemiBold,
                         color = BlueMedium,
                         modifier = Modifier.clickable(
-                            onClick = {
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, web.toUri())
-                                    context.startActivity(intent)
-                                } catch (e: Exception) {
-                                    Toast.makeText(context, "Error abriendo enlace", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                            onClick = { context.openLink(web) }
                         )
                     )
                 }

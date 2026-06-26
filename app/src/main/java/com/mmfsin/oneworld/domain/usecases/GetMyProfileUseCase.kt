@@ -5,6 +5,6 @@ import com.mmfsin.oneworld.domain.models.UserProfile
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetUserProfileUseCase @Inject constructor(private val repository: IUsersRepository) {
-    operator fun invoke(): Flow<UserProfile?> = repository.getUserProfile()
+class GetMyProfileUseCase @Inject constructor(private val repository: IUsersRepository) {
+    operator fun invoke(): Flow<UserProfile?> = repository.getMyProfile()
 }

@@ -23,11 +23,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
+import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
-import com.mmfsin.oneworld.presentation.home.HomeScreen
+import com.mmfsin.oneworld.presentation.events.EventsScreen
 import com.mmfsin.oneworld.presentation.profile.ProfileScreen
 import com.mmfsin.oneworld.utils.BN_EDIT_ID
-import com.mmfsin.oneworld.utils.BN_HOME_ID
+import com.mmfsin.oneworld.utils.BN_EVENTS_ID
 import com.mmfsin.oneworld.utils.BN_PROFILE_ID
 
 @Composable
@@ -35,7 +36,7 @@ fun NavigationWrapper() {
     val navController = rememberNavController()
 
     val bottomNavItems = listOf(
-        BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_home)),
+        BottomNavItem(id = BN_EVENTS_ID, name = stringResource(R.string.bottom_nav_events), icon = painterResource(R.drawable.ic_home)),
         BottomNavItem(id = BN_EDIT_ID, name = stringResource(R.string.bottom_nav_edit), icon = painterResource(R.drawable.ic_edit)),
         BottomNavItem(id = BN_PROFILE_ID, name = stringResource(R.string.bottom_nav_profile), icon = painterResource(R.drawable.ic_profile)),
     )
@@ -60,7 +61,7 @@ fun NavigationWrapper() {
                             }
                         },
                         icon = { Icon(painter = item.icon, contentDescription = item.name) },
-                        label = { Text(text = item.name) },
+                        label = { MediumText(text = item.name) },
                         alwaysShowLabel = false,
                         colors = NavigationBarItemDefaults.colors()
                     )
@@ -70,12 +71,12 @@ fun NavigationWrapper() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = BN_HOME_ID,
+            startDestination = BN_EVENTS_ID,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = BN_HOME_ID) {
+            composable(route = BN_EVENTS_ID) {
                 toolbarTitle = stringResource(R.string.events_toolbar)
-                HomeScreen()
+                EventsScreen()
             }
             composable(route = BN_EDIT_ID) {
                 toolbarTitle = stringResource(R.string.create_event_toolbar)

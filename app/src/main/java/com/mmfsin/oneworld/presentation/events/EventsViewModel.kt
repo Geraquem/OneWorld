@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.home
+package com.mmfsin.oneworld.presentation.events
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,12 +12,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class EventsViewModel @Inject constructor(
     private val getEventsUseCase: GetEventsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeStates())
-    val uiState: StateFlow<HomeStates> = _uiState
+    private val _uiState = MutableStateFlow(EventsStates())
+    val uiState: StateFlow<EventsStates> = _uiState
 
     init {
         getEvents()

@@ -3,6 +3,7 @@ package com.mmfsin.oneworld.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.TextButton
@@ -12,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
+import androidx.core.net.toUri
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.BedRockActivity
 import com.mmfsin.oneworld.presentation.core.components.MediumText
@@ -64,3 +66,12 @@ fun Long.formatDateFromMillis(): String {
 }
 
 fun Int.formatTime(): String = "%02d".format(Locale.US, this)
+
+fun Context.openLink(url: String) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+        startActivity(intent)
+    } catch (e: Exception) {
+        Toast.makeText(this, "Error abriendo enlace", Toast.LENGTH_SHORT).show()
+    }
+}

@@ -5,10 +5,10 @@ import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.mmfsin.oneworld.domain.usecases.CheckIfUserLoggedUseCase
-import com.mmfsin.oneworld.domain.usecases.GetOrCreateUserUseCase
-import com.mmfsin.oneworld.domain.usecases.GetUserEventsUseCase
-import com.mmfsin.oneworld.domain.usecases.GetUserProfileUseCase
+import com.mmfsin.oneworld.domain.usecases.CheckIfLoggedUseCase
+import com.mmfsin.oneworld.domain.usecases.GetOrCreateProfileUseCase
+import com.mmfsin.oneworld.domain.usecases.GetMyEventsCreatedUseCase
+import com.mmfsin.oneworld.domain.usecases.GetMyProfileUseCase
 import com.mmfsin.oneworld.domain.usecases.SignInWithGoogleUseCase
 import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,33 +18,33 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val checkIfUserLoggedUseCase: CheckIfUserLoggedUseCase,
+class MyProfileViewModel @Inject constructor(
+    private val checkIfLoggedUseCase: CheckIfLoggedUseCase,
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
-    private val getOrCreateUserUseCase: GetOrCreateUserUseCase,
-    private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val getUserEventsUseCase: GetUserEventsUseCase
-) : BaseViewModel<ProfileStates>(ProfileStates()) {
+    private val getOrCreateProfileUseCase: GetOrCreateProfileUseCase,
+    private val getMyProfileUseCase: GetMyProfileUseCase,
+    private val getMyEventsCreatedUseCase: GetMyEventsCreatedUseCase
+) : BaseViewModel<MyProfileStates>(MyProfileStates()) {
 
     init {
         observeUserProfile()
-        checkIfUserLogged()
+        checkIfLogged()
     }
 
     private fun observeUserProfile() {
-        getUserProfileUseCase().onEach { profile ->
+        getMyProfileUseCase().onEach { profile ->
             if (profile != null) {
                 _uiState.update {
                     it.copy(
-                        userProfile = profile,
+                        myProfile = profile,
                         userLogged = true
                     )
                 }
-                getUserEvents(profile.id)
+                getMyEventsCreated(profile.id)
             } else {
                 _uiState.update {
                     it.copy(
-                        userProfile = null,
+                        myProfile = null,
                         userLogged = false
                     )
                 }
@@ -55,9 +55,9 @@ class ProfileViewModel @Inject constructor(
     fun sww() = _uiState.update { it.copy(sww = true) }
     fun loading(value: Boolean) = _uiState.update { it.copy(isLoading = value) }
 
-    fun checkIfUserLogged() {
+    fun checkIfLogged() {
         executeUseCase(
-            { checkIfUserLoggedUseCase() },
+            { checkIfLoggedUseCase() },
             { logged ->
                 if (logged) _uiState.update { it.copy(userLogged = true) }
                 else _uiState.update { it.copy(userLogged = false) }
@@ -74,7 +74,7 @@ class ProfileViewModel @Inject constructor(
         try {
             val account = task.getResult(ApiException::class.java)
             account.email?.let { email ->
-                getOrCreateUserSession(account.displayName ?: "?", email)
+                getOrCreateProfile(account.displayName ?: "?", email)
             } ?: run { sww() }
         } catch (e: Exception) {
             sww()
@@ -82,17 +82,17 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getOrCreateUserSession(name: String, email: String) {
+    fun getOrCreateProfile(name: String, email: String) {
         executeUseCase(
-            { getOrCreateUserUseCase(name, email) },
+            { getOrCreateProfileUseCase(name, email) },
             { /** Flow do his work */ },
             { sww() }
         )
     }
 
-    private fun getUserEvents(userId: String) {
+    private fun getMyEventsCreated(userId: String) {
         executeUseCase(
-            { getUserEventsUseCase(userId) },
+            { getMyEventsCreatedUseCase(userId) },
             { events ->
                 events?.let {
                     _uiState.update { it.copy(eventsCreated = events) }

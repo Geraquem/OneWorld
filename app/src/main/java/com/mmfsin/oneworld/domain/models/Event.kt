@@ -20,12 +20,12 @@ fun getExampleEvent() = Event(
     category = 2,
     image = "",
     title = "Titulo de Evento",
-    description = "Descripción de evento porque esto puede ser muy largo yuhu vamos allá",
+    description = "Descripción de evento ",
     creatorId = "",
-    creatorName = "",
-    date = 0,
+    creatorName = "Mufasa Mufasín",
+    date = 32413541,
     hour = 12,
     minutes = 34,
-    address = "",
-    webUrl = null
+    address = "c/Antonio Lopez 67, Madrid",
+    webUrl = "estereotipia.com"
 )

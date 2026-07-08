@@ -7,7 +7,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,9 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
 import com.mmfsin.oneworld.presentation.core.components.MediumText
-import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.events.EventsScreen
-import com.mmfsin.oneworld.presentation.profile.ProfileScreen
+import com.mmfsin.oneworld.presentation.profile.myprofile.ProfileScreen
 import com.mmfsin.oneworld.utils.BN_EDIT_ID
 import com.mmfsin.oneworld.utils.BN_EVENTS_ID
 import com.mmfsin.oneworld.utils.BN_PROFILE_ID
@@ -44,10 +42,10 @@ fun NavigationWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    var toolbarTitle by remember { mutableStateOf<String?>(null) }
+    var toolbarComp by remember { mutableStateOf<(@Composable () -> Unit)?>(null) }
 
     Scaffold(
-        topBar = { toolbarTitle?.let { title -> Toolbar(text = title) } },
+        topBar = { toolbarComp?.invoke() },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->
@@ -75,15 +73,13 @@ fun NavigationWrapper() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = BN_EVENTS_ID) {
-                toolbarTitle = stringResource(R.string.events_toolbar)
-                EventsScreen()
+                EventsScreen(toolbar = { toolbarComp = it })
             }
             composable(route = BN_EDIT_ID) {
-                toolbarTitle = stringResource(R.string.create_event_toolbar)
                 AAAScreen()
             }
             composable(route = BN_PROFILE_ID) {
-                toolbarTitle = null
+                toolbarComp = null
                 ProfileScreen()
             }
         }

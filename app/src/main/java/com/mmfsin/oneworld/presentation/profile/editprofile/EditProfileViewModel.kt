@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.editprofile
+package com.mmfsin.oneworld.presentation.profile.editprofile
 
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.oneworld.domain.models.UpdateProfileData

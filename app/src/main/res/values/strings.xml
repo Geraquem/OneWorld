@@ -17,7 +17,7 @@
     <string name="bottom_nav_profile">Perfil</string>
 
     <!-- EVENTS -->
-    <string name="events_toolbar">Eventos</string>
+    <string name="events_toolbar">Eventos:</string>
 
     <!-- CREATE EVENT -->
     <string name="create_event_toolbar">Crear evento</string>
@@ -46,16 +46,16 @@
     <string name="category_farming_description">Agricultura description</string>
 
     <!-- PROFILE -->
-    <string name="profile_created_events">%s Eventos creados</string>
+    <string name="profile_created_events">Eventos creados</string>
     <string name="profile_created_events_none">No tienes ningún evento creado.</string>
     <string name="profile_initiate_session">Iniciar sesión</string>
     <string name="profile_no_events">Parece que todavía\nno has creado nada</string>
     <string name="profile_loading_events">Cargando eventos…</string>
     <string name="profile_edit_profile">Editar perfil</string>
     <string name="profile_create_event">Crear evento</string>
-    <string name="profile_events">Eventos</string>
-    <string name="profile_assisted">Asistidos</string>
-    <string name="profile_followers">Seguidores</string>
+    <string name="profile_support_me">Me respaldan</string>
+    <string name="profile_support_it">Le respaldan</string>
+    <string name="profile_i_support">Respaldo</string>
 
     <string name="no_profile_followers">Seguidores</string>
 

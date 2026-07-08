@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.editprofile
+package com.mmfsin.oneworld.presentation.profile.editprofile
 
 import android.app.Activity
 import androidx.compose.foundation.Image
@@ -44,7 +44,7 @@ import com.mmfsin.oneworld.presentation.core.components.Toolbar
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.theme.OrangeLight
 import com.mmfsin.oneworld.presentation.core.theme.RedMedium
-import com.mmfsin.oneworld.presentation.editprofile.components.CloseSessionDialog
+import com.mmfsin.oneworld.presentation.profile.editprofile.components.CloseSessionDialog
 import com.mmfsin.oneworld.utils.ImagePicker
 
 @Preview

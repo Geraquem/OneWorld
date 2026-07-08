@@ -29,8 +29,10 @@ import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.UserProfile
 import com.mmfsin.oneworld.presentation.core.components.BigText
+import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
+import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
 import com.mmfsin.oneworld.presentation.core.theme.GrayLight
@@ -46,14 +48,16 @@ fun ProfileCardPV() {
             biography = "Cuando salga el Sol, me recordará cuando estés allí.",
             website = "www.estereotipia.com"
         ),
-        {}
+        {},
+        myProfile = true
     )
 }
 
 @Composable
 fun ProfileCard(
     userProfile: UserProfile,
-    editProfile: () -> Unit
+    editProfile: () -> Unit,
+    myProfile: Boolean = false
 ) {
 
     val context = LocalContext.current
@@ -117,19 +121,19 @@ fun ProfileCard(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            BigText("0", fontWeight = FontWeight.SemiBold)
-                            SmallText(R.string.profile_events)
+                        if (myProfile) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                BigText("245", fontWeight = FontWeight.SemiBold)
+                                MediumText(R.string.profile_i_support)
+                            }
                         }
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            BigText("0", fontWeight = FontWeight.SemiBold)
-                            SmallText(R.string.profile_assisted)
-                        }
-
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            BigText("0", fontWeight = FontWeight.SemiBold)
-                            SmallText(R.string.profile_assisted)
+                            BigText("154.356.123", fontWeight = FontWeight.SemiBold)
+                            MediumText(
+                                text = if (myProfile) R.string.profile_support_me
+                                else R.string.profile_support_it
+                            )
                         }
                     }
                 }
@@ -152,6 +156,26 @@ fun ProfileCard(
                         )
                     )
                 }
+            }
+        }
+
+        SpacerMedium()
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                BigText("23", fontWeight = FontWeight.SemiBold)
+                MediumText(text = "Posts")
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                BigText("23", fontWeight = FontWeight.SemiBold)
+                MediumText(text = "Creados")
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                BigText("45", fontWeight = FontWeight.SemiBold)
+                MediumText(text = "Asistiré")
             }
         }
     }

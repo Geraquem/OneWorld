@@ -1,40 +1,65 @@
 package com.mmfsin.oneworld.presentation.events
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mmfsin.oneworld.domain.usecases.GetEventsUseCase
+import com.mmfsin.oneworld.domain.usecases.GetLatestCategoryEventsUseCase
+import com.mmfsin.oneworld.domain.usecases.UpdateLatestCategoryEventsUseCase
+import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventsViewModel @Inject constructor(
-    private val getEventsUseCase: GetEventsUseCase
-) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(EventsStates())
-    val uiState: StateFlow<EventsStates> = _uiState
+    private val getLatestCategoryEventsUseCase: GetLatestCategoryEventsUseCase,
+    private val updateLatestCategoryEventsUseCase: UpdateLatestCategoryEventsUseCase,
+    private val getEventsUseCase: GetEventsUseCase,
+) : BaseViewModel<EventsStates>(EventsStates()) {
 
     init {
-        getEvents()
+        getLatestCategory()
+    }
+
+    fun getLatestCategory() {
+        executeUseCase(
+            { getLatestCategoryEventsUseCase() },
+            { category ->
+                _uiState.update { it.copy(searchingCategory = category) }
+                getEvents()
+            },
+            {}
+        )
+    }
+
+    fun updateSearchingCategory(newCategory: Int) {
+        executeUseCase(
+            { updateLatestCategoryEventsUseCase(newCategory) },
+            {
+                _uiState.update {
+                    it.copy(
+                        searchingCategory = newCategory,
+                        categoryDialogVisibility = false
+                    )
+                }
+                getEvents()
+            },
+            {},
+        )
     }
 
     fun getEvents() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { it.copy(isLoading = true) }
-            val response = getEventsUseCase()
-            response?.let { r ->
+        executeUseCase(
+            { getEventsUseCase() },
+            { events ->
                 _uiState.update {
                     it.copy(
-                        events = r,
+                        events = events ?: emptyList(),
                         isLoading = false
                     )
                 }
-            }
-        }
+            },
+            {}
+        )
     }
+
+    fun categoryDialogVisibility(value: Boolean) = _uiState.update { it.copy(categoryDialogVisibility = value) }
 }

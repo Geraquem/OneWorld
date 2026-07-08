@@ -4,32 +4,21 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
-import com.mmfsin.oneworld.presentation.profile.editprofile.EditProfileScreen
+import com.mmfsin.oneworld.presentation.profile.userprofile.UserProfileScreen
 import kotlinx.serialization.Serializable
 
 @Composable
-fun NavEditProfile() {
+fun NavUserProfile() {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = EditProfile
+        startDestination = UserProfile
     ) {
-        composable<EditProfile> {
-            EditProfileScreen(
-                navChangeImage = { navController.navigate(AAAScreen) })
-        }
-
-        composable<AAAScreen> {
-            AAAScreen()
-        }
+        composable<UserProfile> { UserProfileScreen() }
     }
 }
 
 /** SCREENS */
 @Serializable
-object EditProfile
-
-@Serializable
-object AAAScreen
+object UserProfile

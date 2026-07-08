@@ -7,10 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
 import com.mmfsin.oneworld.presentation.core.navigation.navigation.NavCreateEvent
 import com.mmfsin.oneworld.presentation.core.navigation.navigation.NavEditProfile
+import com.mmfsin.oneworld.presentation.core.navigation.navigation.NavUserProfile
 import com.mmfsin.oneworld.presentation.core.theme.OneWorldTheme
 import com.mmfsin.oneworld.utils.BEDROCK_NAV_GRAPH
 import com.mmfsin.oneworld.utils.NAV_CREATE_EVENT
 import com.mmfsin.oneworld.utils.NAV_EDIT_PROFILE
+import com.mmfsin.oneworld.utils.NAV_USER_PROFILE
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +26,7 @@ class BedRockActivity : ComponentActivity() {
                 when (navGraph) {
                     NAV_EDIT_PROFILE -> NavEditProfile()
                     NAV_CREATE_EVENT -> NavCreateEvent()
+                    NAV_USER_PROFILE -> NavUserProfile()
                     else -> finish()
                 }
             }

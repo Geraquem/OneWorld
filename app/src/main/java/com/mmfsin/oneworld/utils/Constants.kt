@@ -9,6 +9,7 @@ const val TABLE_USERS = "table_users"
 
 /** SHARED PREFS */
 const val SHARED_PREFS_NAME = "bword_shared_prefs"
+const val SP_LATEST_EVENTS_CATEGORY = "sp_latest_events_category"
 const val SP_USER_EVENTS_SERVER = "sp_user_events_server"
 
 /** BEDROCK ARGS */

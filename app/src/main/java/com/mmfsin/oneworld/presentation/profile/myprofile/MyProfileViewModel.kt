@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.profile
+package com.mmfsin.oneworld.presentation.profile.myprofile
 
 import android.content.Intent
 import androidx.activity.result.ActivityResult

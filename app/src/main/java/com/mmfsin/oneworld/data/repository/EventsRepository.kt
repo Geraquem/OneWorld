@@ -29,6 +29,9 @@ class EventsRepository @Inject constructor(
     //            return emptyList()
     //        }
 
+    override fun getLatestCategory(): Int = sharedPrefs.getLatestEventsCategory()
+    override fun updateLatestCategory(newCategory: Int) = sharedPrefs.updateLatestEventsCategory(newCategory)
+
     override suspend fun getEvents(): List<Event>? = suspendCancellableCoroutine { cont ->
         val result = mutableListOf<Event>()
         val db = FirebaseFirestore.getInstance()

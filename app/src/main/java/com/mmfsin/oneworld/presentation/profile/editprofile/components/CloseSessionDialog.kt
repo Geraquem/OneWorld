@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.editprofile.components
+package com.mmfsin.oneworld.presentation.profile.editprofile.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

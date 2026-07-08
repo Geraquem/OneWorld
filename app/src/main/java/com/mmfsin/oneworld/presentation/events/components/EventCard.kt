@@ -9,20 +9,28 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mmfsin.oneworld.domain.models.Event
+import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
 import com.mmfsin.oneworld.domain.models.getExampleEvent
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
-import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
+import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
+import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
 import com.mmfsin.oneworld.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.presentation.core.theme.White
@@ -51,8 +59,26 @@ fun EventCard(
         modifier = Modifier
             .clickable(onClick = { onEventClick() })
             .background(White)
-            .padding(bottom = 16.dp)
     ) {
+
+        //        Box(modifier = Modifier.fillMaxWidth().height(6.dp).background(GrayHard))
+
+        SpacerSmall()
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        ) {
+            SmallText(text = "Creado por")
+            SpacerMini(horizontal = true)
+            SmallText(
+                text = event.creatorName,
+                color = BlueMedium,
+                modifier = Modifier.clickable(onClick = { onUserNameClick() })
+            )
+        }
+
+        SpacerSmall()
+
         AsyncImage(
             model = event.image,
             contentDescription = null,
@@ -66,7 +92,7 @@ fun EventCard(
                 .background(RedLight)
         )
 
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
 
             MediumText(
                 text = event.title,
@@ -86,18 +112,26 @@ fun EventCard(
                     modifier = Modifier.clickable(onClick = { context.openLink(web) })
                 )
             }
-            //
-            //            SpacerMedium()
-            //
-            //            Box(
-            //                modifier = Modifier.fillMaxWidth()
-            //                    .height(1.dp)
-            //                    .clip(RoundedCornerShape(8.dp))
-            //                    .background(GrayHard)
-            //                    .alpha(0.5f)
-            //            )
 
-            SpacerMedium()
+            SpacerSmall()
+
+            val category = getCategoryById(event.category)
+            Row(
+                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(category.color)
+                    .padding(vertical = 6.dp, horizontal = 8.dp)
+                    .align(Alignment.End),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painterResource(category.icon), null,
+                    modifier = Modifier.size(16.dp)
+                )
+                SpacerSmall(horizontal = true)
+                SmallText(category.title)
+            }
+
+            SpacerSmall()
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -122,18 +156,7 @@ fun EventCard(
                 SmallText(text = event.minutes.toString())
             }
 
-            SpacerMini()
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                SmallText(text = "Creado por")
-                Spacer(Modifier.weight(1f))
-                SmallText(
-                    text = event.creatorName,
-                    color = BlueMedium,
-                    modifier = Modifier.clickable(onClick = { onUserNameClick() })
-                )
-            }
+            SpacerLarge()
         }
     }
 }

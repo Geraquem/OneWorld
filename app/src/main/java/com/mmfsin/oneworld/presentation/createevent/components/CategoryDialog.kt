@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.mmfsin.oneworld.domain.models.EventType.Companion.getCategories
+import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategories
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium

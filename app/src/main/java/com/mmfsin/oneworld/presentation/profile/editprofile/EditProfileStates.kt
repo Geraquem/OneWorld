@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.editprofile
+package com.mmfsin.oneworld.presentation.profile.editprofile
 
 data class EditProfileStates(
     val isLoading: Boolean = false,

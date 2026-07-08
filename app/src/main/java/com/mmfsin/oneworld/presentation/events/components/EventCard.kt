@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
 import com.mmfsin.oneworld.domain.models.getExampleEvent
@@ -49,7 +50,7 @@ fun EventCardPV() {
 @Composable
 fun EventCard(
     event: Event,
-    onEventClick: () -> Unit,
+    onEventClick: (String) -> Unit,
     onUserNameClick: () -> Unit,
 ) {
 
@@ -57,7 +58,7 @@ fun EventCard(
 
     Column(
         modifier = Modifier
-            .clickable(onClick = { onEventClick() })
+            .clickable(onClick = { onEventClick(event.id) })
             .background(White)
     ) {
 
@@ -94,11 +95,25 @@ fun EventCard(
 
         Column(modifier = Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
 
-            MediumText(
-                text = event.title,
-                fontWeight = FontWeight.SemiBold
-            )
+            Row(
+            ) {
+                MediumText(
+                    text = "event.titleñjdañslk",
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
+                )
 
+                SpacerMini(horizontal = true)
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    MediumText(text = "575")
+                    SpacerMini(horizontal = true)
+                    Icon(
+                        painterResource(R.drawable.ic_profile), null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
             event.description?.let { d ->
                 SpacerMini()
                 MediumText(text = if (d.length > 200) d.take(200) + "…" else d)
@@ -136,7 +151,7 @@ fun EventCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                SmallText(text = "¿Dónde?")
+                SmallText(text = R.string.events_where)
                 Spacer(Modifier.weight(1f))
                 SmallText(text = event.address)
             }
@@ -146,7 +161,7 @@ fun EventCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                SmallText(text = "¿Cuándo?")
+                SmallText(text = R.string.events_when)
                 Spacer(Modifier.weight(1f))
                 SmallText(text = event.date.formatDateFromMillis())
                 SmallText(text = ",")

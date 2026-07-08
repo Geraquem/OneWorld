@@ -15,6 +15,7 @@ import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.createevent.components.CategoryDialog
 import com.mmfsin.oneworld.presentation.events.components.EventCard
 import com.mmfsin.oneworld.presentation.events.components.EventsToolbar
+import com.mmfsin.oneworld.utils.NAV_EVENT_DETAIL
 import com.mmfsin.oneworld.utils.NAV_USER_PROFILE
 import com.mmfsin.oneworld.utils.openBedRockActivity
 
@@ -73,7 +74,12 @@ fun EventsContent(
                 item {
                     EventCard(
                         event = event,
-                        onEventClick = { },
+                        onEventClick = { eventId ->
+                            context.openBedRockActivity(
+                                navGraph = NAV_EVENT_DETAIL,
+                                strArgs = eventId
+                            )
+                        },
                         onUserNameClick = { context.openBedRockActivity(NAV_USER_PROFILE) }
                     )
                 }

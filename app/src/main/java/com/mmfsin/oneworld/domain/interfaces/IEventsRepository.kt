@@ -7,6 +7,7 @@ interface IEventsRepository {
     fun updateLatestCategory(newCategory: Int)
 
     suspend fun getEvents(category: Int): List<Event>?
+    suspend fun getEventById(eventId: String): Event?
     suspend fun createEvent(event: Event)
 
     suspend fun getMyEventsCreated(userId: String): List<Event>?

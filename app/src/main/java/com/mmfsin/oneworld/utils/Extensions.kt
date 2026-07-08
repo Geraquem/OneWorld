@@ -23,16 +23,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-fun Context.openBedRockActivity(screen: String, strArgs: String? = null) {
-    val intent = Intent(this, BedRockActivity::class.java)
-    intent.putExtra(BEDROCK_SCREEN_ARGS, screen)
-    strArgs?.let { intent.putExtra(BEDROCK_STR_ARGS, strArgs) }
-    startActivity(intent)
-}
-
-fun Context.openBedRockActivity(navGraph: String) {
+fun Context.openBedRockActivity(navGraph: String, strArgs: String? = null) {
     val intent = Intent(this, BedRockActivity::class.java)
     intent.putExtra(BEDROCK_NAV_GRAPH, navGraph)
+    strArgs?.let { intent.putExtra(BEDROCK_STR_ARGS, strArgs) }
     startActivity(intent)
 }
 

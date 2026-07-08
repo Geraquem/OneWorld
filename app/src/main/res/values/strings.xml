@@ -18,6 +18,10 @@
 
     <!-- EVENTS -->
     <string name="events_toolbar">Eventos:</string>
+    <string name="events_where">¿Dónde?</string>
+    <string name="events_when">¿Cuándo?</string>
+    <string name="events_location">Ubicación del evento</string>
+    <string name="events_date_and_hour">Fecha y hora</string>
 
     <!-- CREATE EVENT -->
     <string name="create_event_toolbar">Crear evento</string>

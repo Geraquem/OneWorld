@@ -26,6 +26,7 @@ val RedLight = Color(0xFFF1C2C2)
 val RedMedium = Color(0xFFDC5656)
 val RedHard = Color(0xFFD40505)
 
+val OrangeTransparent = Color(0x66FFC76E)
 val OrangeLight = Color(0xFFFCC466)
 val OrangeMedium = Color(0xFFD9A147)
 val OrangeHard = Color(0xFFF69A00)

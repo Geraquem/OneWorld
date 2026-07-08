@@ -14,6 +14,7 @@ const val SP_USER_EVENTS_SERVER = "sp_user_events_server"
 
 /** BEDROCK ARGS */
 const val BEDROCK_NAV_GRAPH = "bedrock_screen_nav_graph"
+const val NAV_EVENT_DETAIL = "nav_event_detail"
 const val NAV_EDIT_PROFILE = "nav_edit_profile"
 const val NAV_CREATE_EVENT = "nav_create_event"
 const val NAV_USER_PROFILE = "nav_user_profile"

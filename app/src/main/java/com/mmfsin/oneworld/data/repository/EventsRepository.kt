@@ -42,6 +42,17 @@ class EventsRepository @Inject constructor(
         return snapshot.documents.mapNotNull { doc -> doc.toObject(EventDTO::class.java)?.toEvent() }
     }
 
+    override suspend fun getEventById(eventId: String): Event? {
+        var event: EventDTO?
+        val snapshot = FirebaseFirestore.getInstance().collection(EVENTS)
+            .document(eventId)
+            .get()
+            .await()
+        event = snapshot.toObject(EventDTO::class.java)
+
+        return event?.toEvent()
+    }
+
     override suspend fun createEvent(event: Event) {
         val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
 

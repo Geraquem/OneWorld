@@ -12,11 +12,9 @@ import com.mmfsin.oneworld.domain.interfaces.IEventsRepository
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.utils.CREATOR_ID
 import com.mmfsin.oneworld.utils.EVENTS
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class EventsRepository @Inject constructor(
     private val sharedPrefs: SharedPrefs,
@@ -32,18 +30,16 @@ class EventsRepository @Inject constructor(
     override fun getLatestCategory(): Int = sharedPrefs.getLatestEventsCategory()
     override fun updateLatestCategory(newCategory: Int) = sharedPrefs.updateLatestEventsCategory(newCategory)
 
-    override suspend fun getEvents(): List<Event>? = suspendCancellableCoroutine { cont ->
-        val result = mutableListOf<Event>()
+    override suspend fun getEvents(category: Int): List<Event>? {
         val db = FirebaseFirestore.getInstance()
-        db.collection(EVENTS).get().addOnSuccessListener { documents ->
-            for (doc in documents) {
-                val eventEntity = doc.toObject(EventDTO::class.java)
-                result.add(eventEntity.toEvent())
-            }
-            cont.resume(result)
-        }.addOnFailureListener {
-            cont.resume(null)
-        }
+        val snapshot = if (category != 0) {
+            db.collection(EVENTS)
+                .whereEqualTo("category", category)
+                .get()
+                .await()
+        } else db.collection(EVENTS).get().await()
+
+        return snapshot.documents.mapNotNull { doc -> doc.toObject(EventDTO::class.java)?.toEvent() }
     }
 
     override suspend fun createEvent(event: Event) {

@@ -24,7 +24,7 @@ class EventsViewModel @Inject constructor(
             { getLatestCategoryEventsUseCase() },
             { category ->
                 _uiState.update { it.copy(searchingCategory = category) }
-                getEvents()
+                getEvents(category)
             },
             {}
         )
@@ -40,15 +40,15 @@ class EventsViewModel @Inject constructor(
                         categoryDialogVisibility = false
                     )
                 }
-                getEvents()
+                getEvents(newCategory)
             },
             {},
         )
     }
 
-    fun getEvents() {
+    fun getEvents(category: Int) {
         executeUseCase(
-            { getEventsUseCase() },
+            { getEventsUseCase(category) },
             { events ->
                 _uiState.update {
                     it.copy(

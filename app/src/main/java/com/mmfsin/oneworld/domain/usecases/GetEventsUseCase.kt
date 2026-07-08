@@ -5,5 +5,5 @@ import com.mmfsin.oneworld.domain.models.Event
 import javax.inject.Inject
 
 class GetEventsUseCase @Inject constructor(private val repository: IEventsRepository) {
-    suspend operator fun invoke(): List<Event>? = repository.getEvents()
+    suspend operator fun invoke(category: Int): List<Event>? = repository.getEvents(category)
 }

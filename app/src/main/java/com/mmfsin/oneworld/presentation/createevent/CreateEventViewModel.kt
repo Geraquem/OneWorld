@@ -56,7 +56,13 @@ class CreateEventViewModel @Inject constructor(
                 hour = state.time.first,
                 minutes = state.time.second,
                 address = "",
-                webUrl = state.webUrl.ifBlank { null }
+                webUrl = state.webUrl.ifBlank { null },
+                likesCount = 0,
+                userLiked = false,
+                savesCount = 0,
+                userSaved = false,
+                attendeesCount = 0,
+                userAttending = false
             )
 
             executeUseCase(

@@ -11,4 +11,7 @@ interface IEventsRepository {
     suspend fun createEvent(event: Event)
 
     suspend fun getMyEventsCreated(userId: String): List<Event>?
+
+    suspend fun setEventLike(eventId: String)
+    suspend fun removeEventLike(eventId: String)
 }

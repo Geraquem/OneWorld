@@ -1,16 +1,19 @@
 package com.mmfsin.oneworld.presentation.events.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,14 +28,18 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.getExampleEvent
+import com.mmfsin.oneworld.presentation.core.components.BigText
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
+import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
 import com.mmfsin.oneworld.presentation.core.components.Toolbar
+import com.mmfsin.oneworld.presentation.core.theme.Black
 import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
+import com.mmfsin.oneworld.presentation.core.theme.GreenMedium
 import com.mmfsin.oneworld.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.utils.formatDateFromMillis
 import com.mmfsin.oneworld.utils.openLink
@@ -43,7 +50,8 @@ fun EventDetailPV() {
     EventDetailContent(
         uiState = EventDetailStates(
             event = getExampleEvent()
-        )
+        ),
+        {}, {}, {},
     )
 }
 
@@ -51,13 +59,19 @@ fun EventDetailPV() {
 fun EventDetailScreen(viewModel: EventDetailViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     EventDetailContent(
-        uiState = uiState
+        uiState = uiState,
+        likeEvent = { viewModel.likeEvent() },
+        saveEvent = {},
+        assistEvent = {}
     )
 }
 
 @Composable
 fun EventDetailContent(
     uiState: EventDetailStates,
+    likeEvent: () -> Unit,
+    saveEvent: () -> Unit,
+    assistEvent: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -81,6 +95,40 @@ fun EventDetailContent(
 
                 Column(Modifier.padding(horizontal = 16.dp)) {
                     SpacerSmall()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        BigText(text = e.likesCount.toString())
+                        IconButton(onClick = { likeEvent() }) {
+                            Image(
+                                painterResource(if (e.userLiked) R.drawable.ic_like_on else R.drawable.ic_like_off),
+                                null,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
+
+                        SpacerSmall(horizontal = true)
+
+                        MediumText(text = e.savesCount.toString())
+                        SpacerMini(horizontal = true)
+                        Image(
+                            painterResource(if (e.userSaved) R.drawable.ic_save_on else R.drawable.ic_save_off),
+                            null,
+                            modifier = Modifier.size(28.dp).clickable(onClick = { saveEvent() })
+                        )
+
+                        Spacer(Modifier.weight(1f))
+
+                        MediumText(text = e.attendeesCount.toString())
+                        SpacerMini(horizontal = true)
+                        Icon(
+                            painterResource(R.drawable.ic_assistant),
+                            null,
+                            tint = if (e.userAttending) GreenMedium else Black,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    SpacerMedium()
+
                     MediumText(text = e.title, fontWeight = FontWeight.SemiBold)
 
                     e.description?.let { desc ->
@@ -89,7 +137,7 @@ fun EventDetailContent(
                     }
 
                     e.webUrl?.let { web ->
-                        SpacerLarge()
+                        SpacerMedium()
                         SmallText(text = "Más información en:")
                         MediumText(
                             text = web,
@@ -100,7 +148,14 @@ fun EventDetailContent(
 
                     SpacerSmall()
 
-                    SmallText(text = R.string.events_location)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painterResource(R.drawable.ic_dot), null,
+                            modifier = Modifier.size(8.dp)
+                        )
+                        SpacerMini(horizontal = true)
+                        SmallText(text = R.string.events_location)
+                    }
                     SpacerMini()
                     MediumText(
                         text = e.address,
@@ -109,7 +164,14 @@ fun EventDetailContent(
 
                     SpacerSmall()
 
-                    SmallText(text = R.string.events_date_and_hour)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painterResource(R.drawable.ic_dot), null,
+                            modifier = Modifier.size(8.dp)
+                        )
+                        SpacerMini(horizontal = true)
+                        SmallText(text = R.string.events_date_and_hour)
+                    }
                     SpacerMini()
                     Row() {
                         MediumText(text = e.date.formatDateFromMillis(), fontWeight = FontWeight.SemiBold)
@@ -123,28 +185,17 @@ fun EventDetailContent(
                     SpacerLarge()
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        MediumText(text = "Asistentes:")
+                        SmallText(text = "Evento creado por")
                         SpacerMini(horizontal = true)
-                        MediumText(text = "684", fontWeight = FontWeight.SemiBold)
-                        SpacerMini(horizontal = true)
-                        Icon(
-                            painterResource(R.drawable.ic_profile), null,
-                            modifier = Modifier.size(18.dp)
-                        )
+                        SmallText(text = e.creatorName, color = BlueMedium)
                     }
-
                     SpacerMini()
                     ButtonCustom(
                         onClick = {},
-                        text = R.string.app_name,
-                        modifier = Modifier.fillMaxWidth()
+                        text = if (e.userAttending) R.string.events_signed_in else R.string.events_sign_in,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = if (e.userAttending) GreenMedium else BlueMedium
                     )
-
-                    //                    SpacerSmall()
-                    //                    MediumText(text = "Evento creado por")
-                    //                    MediumText(text = e.creatorName)
-
-
                     SpacerLarge()
                 }
             }

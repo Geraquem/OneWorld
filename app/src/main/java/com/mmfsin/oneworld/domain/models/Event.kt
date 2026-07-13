@@ -13,6 +13,12 @@ data class Event(
     var hour: Int,
     var minutes: Int,
     var address: String,
+    var likesCount: Int,
+    var userLiked: Boolean,
+    var savesCount: Int,
+    var userSaved: Boolean,
+    var attendeesCount: Int,
+    var userAttending: Boolean,
 )
 
 fun getExampleEvent() = Event(
@@ -27,5 +33,11 @@ fun getExampleEvent() = Event(
     hour = 12,
     minutes = 34,
     address = "c/Antonio Lopez 67, Madrid",
-    webUrl = "estereotipia.com"
+    webUrl = "estereotipia.com",
+    likesCount = 234,
+    userLiked = true,
+    savesCount = 12,
+    userSaved = false,
+    attendeesCount = 2432,
+    userAttending = true
 )

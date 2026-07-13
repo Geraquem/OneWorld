@@ -19,4 +19,10 @@ data class EventDTO(
     var hour: Int = 0,
     var minutes: Int = 0,
     var address: String = "",
+    var likesCount: Int = 0,
+    var userLiked: Boolean = false,
+    var savesCount: Int = 0,
+    var userSaved: Boolean = false,
+    var attendeesCount: Int = 0,
+    var userAttending: Boolean = false,
 )

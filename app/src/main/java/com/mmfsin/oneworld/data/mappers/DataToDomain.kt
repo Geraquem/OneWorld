@@ -17,7 +17,13 @@ fun EventDTO.toEvent() = Event(
     address = address,
     date = date,
     hour = hour,
-    minutes = minutes
+    minutes = minutes,
+    likesCount = likesCount,
+    userLiked = userLiked,
+    savesCount = savesCount,
+    userSaved = userSaved,
+    attendeesCount = attendeesCount,
+    userAttending = userAttending
 )
 
 fun List<EventDTO>.toEventList() = this.map { it.toEvent() }

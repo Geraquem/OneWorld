@@ -1,5 +1,6 @@
 package com.mmfsin.oneworld.data.repository
 
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmfsin.oneworld.data.ddbb.SharedPrefs
 import com.mmfsin.oneworld.data.ddbb.daos.EventsDAO
@@ -12,6 +13,12 @@ import com.mmfsin.oneworld.domain.interfaces.IEventsRepository
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.utils.CREATOR_ID
 import com.mmfsin.oneworld.utils.EVENTS
+import com.mmfsin.oneworld.utils.EVENT_ATTENDEES
+import com.mmfsin.oneworld.utils.EVENT_LIKES
+import com.mmfsin.oneworld.utils.EVENT_LIKES_COUNT
+import com.mmfsin.oneworld.utils.EVENT_SAVES
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -42,15 +49,47 @@ class EventsRepository @Inject constructor(
         return snapshot.documents.mapNotNull { doc -> doc.toObject(EventDTO::class.java)?.toEvent() }
     }
 
-    override suspend fun getEventById(eventId: String): Event? {
-        var event: EventDTO?
-        val snapshot = FirebaseFirestore.getInstance().collection(EVENTS)
-            .document(eventId)
-            .get()
-            .await()
-        event = snapshot.toObject(EventDTO::class.java)
+    override suspend fun getEventById(eventId: String): Event? = coroutineScope {
+        val userId = usersDAO.getActiveUser()?.id ?: throw IllegalStateException()
 
-        return event?.toEvent()
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+
+        val eventDeferred = async { eventRef.get().await() }
+
+        val userLiked = async {
+            eventRef.collection(EVENT_LIKES)
+                .document(userId)
+                .get()
+                .await()
+                .exists()
+        }
+
+        val userSaved = async {
+            eventRef.collection(EVENT_SAVES)
+                .document(userId)
+                .get()
+                .await()
+                .exists()
+        }
+
+        val userAttending = async {
+            eventRef.collection(EVENT_ATTENDEES)
+                .document(userId)
+                .get()
+                .await()
+                .exists()
+        }
+
+        val eventSnapshot = eventDeferred.await()
+
+        val event = eventSnapshot.toObject(EventDTO::class.java) ?: return@coroutineScope null
+
+        event.copy(
+            userLiked = userLiked.await(),
+            userSaved = userSaved.await(),
+            userAttending = userAttending.await()
+        ).toEvent()
     }
 
     override suspend fun createEvent(event: Event) {
@@ -83,6 +122,53 @@ class EventsRepository @Inject constructor(
             events.toEventList()
 
         } else eventsDAO.getUserEvents(userId).toEventList()
+    }
+
+    override suspend fun setEventLike(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val likeRef = eventRef.collection(EVENT_LIKES).document(user.id)
+
+        val batch = db.batch()
+
+        /** Put userId in likes list */
+        batch.set(
+            likeRef,
+            emptyMap<String, Any>()
+        )
+
+        /** update likesCount */
+        batch.update(
+            eventRef,
+            EVENT_LIKES_COUNT,
+            FieldValue.increment(1)
+        )
+
+        batch.commit().await()
+    }
+
+    override suspend fun removeEventLike(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val likeRef = eventRef.collection(EVENT_LIKES).document(user.id)
+
+        val batch = db.batch()
+
+        /** delete userId */
+        batch.delete(likeRef)
+
+        /** update likesCount */
+        batch.update(
+            eventRef,
+            EVENT_LIKES_COUNT,
+            FieldValue.increment(-1)
+        )
+
+        batch.commit().await()
     }
 
     /**********************************************************************************************************************************/

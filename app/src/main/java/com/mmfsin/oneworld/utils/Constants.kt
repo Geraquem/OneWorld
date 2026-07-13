@@ -29,6 +29,13 @@ const val BN_PROFILE_ID = "bottom_nav_profile_id"
 
 /** FIRESTORE */
 const val EVENTS = "Events"
+const val EVENT_LIKES = "likes"
+const val EVENT_LIKES_COUNT = "likesCount"
+const val EVENT_SAVES = "saves"
+const val EVENT_SAVES_COUNT = "savesCount"
+const val EVENT_ATTENDEES = "attendees"
+const val EVENT_ATTENDEES_COUNT = "attendeesCount"
+
 const val USERS = "Users"
 
 const val CREATOR_ID = "creatorId"

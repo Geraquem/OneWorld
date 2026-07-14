@@ -17,9 +17,6 @@ fun Event.toEventDTO() = EventDTO(
     minutes = minutes,
     address = address,
     likesCount = likesCount,
-    userLiked = userLiked,
     savesCount = savesCount,
-    userSaved = userSaved,
     attendeesCount = attendeesCount,
-    userAttending = userAttending
 )

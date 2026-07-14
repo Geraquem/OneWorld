@@ -22,6 +22,7 @@
     <string name="events_when">¿Cuándo?</string>
     <string name="events_location">Ubicación del evento</string>
     <string name="events_date_and_hour">Fecha y hora</string>
+    <string name="events_created_by">Evento creado por</string>
     <string name="events_sign_in">Apuntarme</string>
     <string name="events_signed_in">¡Ya estoy apuntadx!</string>
 

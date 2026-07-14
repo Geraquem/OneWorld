@@ -14,9 +14,11 @@ import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.utils.CREATOR_ID
 import com.mmfsin.oneworld.utils.EVENTS
 import com.mmfsin.oneworld.utils.EVENT_ATTENDEES
+import com.mmfsin.oneworld.utils.EVENT_ATTENDEES_COUNT
 import com.mmfsin.oneworld.utils.EVENT_LIKES
 import com.mmfsin.oneworld.utils.EVENT_LIKES_COUNT
 import com.mmfsin.oneworld.utils.EVENT_SAVES
+import com.mmfsin.oneworld.utils.EVENT_SAVES_COUNT
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
@@ -84,12 +86,11 @@ class EventsRepository @Inject constructor(
         val eventSnapshot = eventDeferred.await()
 
         val event = eventSnapshot.toObject(EventDTO::class.java) ?: return@coroutineScope null
-
-        event.copy(
+        event.toEvent(
             userLiked = userLiked.await(),
             userSaved = userSaved.await(),
             userAttending = userAttending.await()
-        ).toEvent()
+        )
     }
 
     override suspend fun createEvent(event: Event) {
@@ -165,6 +166,101 @@ class EventsRepository @Inject constructor(
         batch.update(
             eventRef,
             EVENT_LIKES_COUNT,
+            FieldValue.increment(-1)
+        )
+
+        batch.commit().await()
+    }
+
+
+    override suspend fun saveEvent(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val savedRef = eventRef.collection(EVENT_SAVES).document(user.id)
+
+        val batch = db.batch()
+
+        /** Put userId in saves list */
+        batch.set(
+            savedRef,
+            emptyMap<String, Any>()
+        )
+
+        /** update savesCount */
+        batch.update(
+            eventRef,
+            EVENT_SAVES_COUNT,
+            FieldValue.increment(1)
+        )
+
+        batch.commit().await()
+    }
+
+    override suspend fun removeSaveEvent(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val likeRef = eventRef.collection(EVENT_SAVES).document(user.id)
+
+        val batch = db.batch()
+
+        /** delete userId */
+        batch.delete(likeRef)
+
+        /** update savesCount */
+        batch.update(
+            eventRef,
+            EVENT_SAVES_COUNT,
+            FieldValue.increment(-1)
+        )
+
+        batch.commit().await()
+    }
+
+    override suspend fun attendingEvent(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val likeRef = eventRef.collection(EVENT_ATTENDEES).document(user.id)
+
+        val batch = db.batch()
+
+        /** Put userId in attendees list */
+        batch.set(
+            likeRef,
+            emptyMap<String, Any>()
+        )
+
+        /** update attendeesCount */
+        batch.update(
+            eventRef,
+            EVENT_ATTENDEES_COUNT,
+            FieldValue.increment(1)
+        )
+
+        batch.commit().await()
+    }
+
+    override suspend fun removeAttendingEvent(eventId: String) {
+        val user = usersDAO.getActiveUser() ?: throw IllegalStateException("No active user")
+
+        val db = FirebaseFirestore.getInstance()
+        val eventRef = db.collection(EVENTS).document(eventId)
+        val likeRef = eventRef.collection(EVENT_ATTENDEES).document(user.id)
+
+        val batch = db.batch()
+
+        /** delete userId */
+        batch.delete(likeRef)
+
+        /** update likesCount */
+        batch.update(
+            eventRef,
+            EVENT_ATTENDEES_COUNT,
             FieldValue.increment(-1)
         )
 

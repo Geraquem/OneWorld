@@ -5,7 +5,11 @@ import com.mmfsin.oneworld.data.models.UserProfileDTO
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.UserProfile
 
-fun EventDTO.toEvent() = Event(
+fun EventDTO.toEvent(
+    userLiked: Boolean = false,
+    userSaved: Boolean = false,
+    userAttending: Boolean = false
+) = Event(
     id = id,
     category = category,
     title = title,
@@ -18,12 +22,12 @@ fun EventDTO.toEvent() = Event(
     date = date,
     hour = hour,
     minutes = minutes,
-    likesCount = likesCount,
     userLiked = userLiked,
-    savesCount = savesCount,
+    likesCount = likesCount,
     userSaved = userSaved,
+    savesCount = savesCount,
+    userAttending = userAttending,
     attendeesCount = attendeesCount,
-    userAttending = userAttending
 )
 
 fun List<EventDTO>.toEventList() = this.map { it.toEvent() }

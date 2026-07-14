@@ -14,4 +14,8 @@ interface IEventsRepository {
 
     suspend fun setEventLike(eventId: String)
     suspend fun removeEventLike(eventId: String)
+    suspend fun saveEvent(eventId: String)
+    suspend fun removeSaveEvent(eventId: String)
+    suspend fun attendingEvent(eventId: String)
+    suspend fun removeAttendingEvent(eventId: String)
 }

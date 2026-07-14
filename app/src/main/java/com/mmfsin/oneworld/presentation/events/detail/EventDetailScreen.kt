@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,8 +62,8 @@ fun EventDetailScreen(viewModel: EventDetailViewModel = hiltViewModel()) {
     EventDetailContent(
         uiState = uiState,
         likeEvent = { viewModel.likeEvent() },
-        saveEvent = {},
-        assistEvent = {}
+        saveEvent = { viewModel.saveEvent() },
+        assistEvent = { viewModel.assistEvent() }
     )
 }
 
@@ -97,9 +98,16 @@ fun EventDetailContent(
                     SpacerSmall()
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         BigText(text = e.likesCount.toString())
-                        IconButton(onClick = { likeEvent() }) {
+                        SpacerMini(horizontal = true)
+                        IconButton(
+                            onClick = { likeEvent() },
+                            modifier = Modifier.size(32.dp)
+                        ) {
                             Image(
-                                painterResource(if (e.userLiked) R.drawable.ic_like_on else R.drawable.ic_like_off),
+                                painter = painterResource(
+                                    if (e.userLiked) R.drawable.ic_like_on
+                                    else R.drawable.ic_like_off
+                                ),
                                 null,
                                 modifier = Modifier.size(28.dp)
                             )
@@ -107,17 +115,25 @@ fun EventDetailContent(
 
                         SpacerSmall(horizontal = true)
 
-                        MediumText(text = e.savesCount.toString())
+                        BigText(text = e.savesCount.toString())
                         SpacerMini(horizontal = true)
-                        Image(
-                            painterResource(if (e.userSaved) R.drawable.ic_save_on else R.drawable.ic_save_off),
-                            null,
-                            modifier = Modifier.size(28.dp).clickable(onClick = { saveEvent() })
-                        )
+                        IconButton(
+                            onClick = { saveEvent() },
+                            modifier = Modifier.size(32.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(
+                                    if (e.userSaved) R.drawable.ic_save_on
+                                    else R.drawable.ic_save_off
+                                ),
+                                null,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
 
                         Spacer(Modifier.weight(1f))
 
-                        MediumText(text = e.attendeesCount.toString())
+                        BigText(text = e.attendeesCount.toString())
                         SpacerMini(horizontal = true)
                         Icon(
                             painterResource(R.drawable.ic_assistant),
@@ -185,13 +201,13 @@ fun EventDetailContent(
                     SpacerLarge()
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        SmallText(text = "Evento creado por")
+                        SmallText(text = stringResource(R.string.events_created_by))
                         SpacerMini(horizontal = true)
                         SmallText(text = e.creatorName, color = BlueMedium)
                     }
                     SpacerMini()
                     ButtonCustom(
-                        onClick = {},
+                        onClick = { assistEvent() },
                         text = if (e.userAttending) R.string.events_signed_in else R.string.events_sign_in,
                         modifier = Modifier.fillMaxWidth(),
                         color = if (e.userAttending) GreenMedium else BlueMedium

@@ -9,19 +9,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
-import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
-import com.mmfsin.oneworld.presentation.core.theme.White
 
 @Preview
 @Composable
@@ -34,7 +34,7 @@ fun EventsToolbar(categoryId: Int, changeCategory: () -> Unit) {
     val category = getCategoryById(categoryId)
 
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
+        colors = topAppBarColors(
             containerColor = White
         ),
 

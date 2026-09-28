@@ -23,6 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
@@ -32,9 +35,6 @@ import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
-import com.mmfsin.oneworld.presentation.core.theme.RedLight
-import com.mmfsin.oneworld.presentation.core.theme.White
 import com.mmfsin.oneworld.utils.formatDateFromMillis
 import com.mmfsin.oneworld.utils.openLink
 
@@ -94,26 +94,48 @@ fun EventCard(
         )
 
         Column(modifier = Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
-
-            Row(
-            ) {
-                MediumText(
-                    text = "event.titleñjdañslk",
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.weight(1f)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                MediumText(text = event.likesCount.toString())
+                SpacerMini(horizontal = true)
+                Icon(
+                    painterResource(R.drawable.ic_like_on), null,
+                    modifier = Modifier.size(22.dp)
                 )
 
-                SpacerMini(horizontal = true)
+                SpacerSmall(horizontal = true)
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    MediumText(text = "575")
-                    SpacerMini(horizontal = true)
+                MediumText(text = event.attendeesCount.toString())
+                SpacerMini(horizontal = true)
+                Icon(
+                    painterResource(R.drawable.ic_assistant), null,
+                    modifier = Modifier.size(22.dp)
+                )
+
+                Spacer(Modifier.weight(1f))
+
+                val category = getCategoryById(event.category)
+                Row(
+                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                        .background(category.color)
+                        .padding(vertical = 4.dp, horizontal = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
-                        painterResource(R.drawable.ic_profile), null,
-                        modifier = Modifier.size(18.dp)
+                        painterResource(category.icon), null,
+                        modifier = Modifier.size(16.dp)
                     )
+                    SpacerSmall(horizontal = true)
+                    SmallText(category.title)
                 }
             }
+
+            SpacerSmall()
+
+            MediumText(
+                text = event.title,
+                fontWeight = FontWeight.SemiBold,
+            )
+
             event.description?.let { d ->
                 SpacerMini()
                 MediumText(text = if (d.length > 200) d.take(200) + "…" else d)
@@ -126,24 +148,6 @@ fun EventCard(
                     color = BlueMedium,
                     modifier = Modifier.clickable(onClick = { context.openLink(web) })
                 )
-            }
-
-            SpacerSmall()
-
-            val category = getCategoryById(event.category)
-            Row(
-                modifier = Modifier.clip(RoundedCornerShape(16.dp))
-                    .background(category.color)
-                    .padding(vertical = 6.dp, horizontal = 8.dp)
-                    .align(Alignment.End),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painterResource(category.icon), null,
-                    modifier = Modifier.size(16.dp)
-                )
-                SpacerSmall(horizontal = true)
-                SmallText(category.title)
             }
 
             SpacerSmall()

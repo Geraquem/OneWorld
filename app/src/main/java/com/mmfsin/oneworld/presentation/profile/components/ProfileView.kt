@@ -14,14 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.UserProfile
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
-import com.mmfsin.oneworld.presentation.core.theme.GrayLight
-import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
-import com.mmfsin.oneworld.presentation.events.components.EventCard
 
 @Preview
 @Composable

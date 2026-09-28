@@ -1,12 +1,12 @@
 package com.mmfsin.oneworld.domain.models
 
 import androidx.compose.ui.graphics.Color
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.presentation.core.theme.BlueLight
-import com.mmfsin.oneworld.presentation.core.theme.GreenLight
-import com.mmfsin.oneworld.presentation.core.theme.GreenMedium
-import com.mmfsin.oneworld.presentation.core.theme.OrangeLight
-import com.mmfsin.oneworld.presentation.core.theme.RedLight
 
 enum class EventCategory(val id: Int, val icon: Int, val title: Int, val description: Int, val color: Color) {
     NO_SPECIFIED(

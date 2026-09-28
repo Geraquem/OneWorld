@@ -27,6 +27,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.getExampleEvent
 import com.mmfsin.oneworld.presentation.core.components.BigText
@@ -37,11 +41,6 @@ import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.presentation.core.components.Toolbar
-import com.mmfsin.oneworld.presentation.core.theme.Black
-import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
-import com.mmfsin.oneworld.presentation.core.theme.GreenMedium
-import com.mmfsin.oneworld.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.utils.formatDateFromMillis
 import com.mmfsin.oneworld.utils.openLink
 
@@ -78,10 +77,10 @@ fun EventDetailContent(
 
     Scaffold(
         topBar = {
-            Toolbar(
-                iconBackVisible = true,
-                onBackClick = {}
-            )
+//            Toolbar(
+//                iconBackVisible = true,
+//                onBackClick = {}
+//            )
         }
     ) { innerPadding ->
         Column(

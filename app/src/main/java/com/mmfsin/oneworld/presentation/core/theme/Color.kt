@@ -1,4 +1,4 @@
-package com.mmfsin.oneworld.presentation.core.theme
+package com.mmfsin.noexcusescompose.presentation.core.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -39,3 +39,7 @@ val BlueTransparent = Color(0x6695B7EE)
 val BlueLight = Color(0xFF84ADEE)
 val BlueMedium = Color(0xFF4B87E7)
 val BlueHard = Color(0xFF0449BF)
+
+val PurpleLight = Color(0xFFB588CB)
+val Purple = Color(0xFF7A2493)
+val PurpleDark = Color(0xFF764186)

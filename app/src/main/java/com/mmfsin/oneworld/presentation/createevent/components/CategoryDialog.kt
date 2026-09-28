@@ -18,13 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategories
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
-import com.mmfsin.oneworld.presentation.core.theme.GreenLight
-import com.mmfsin.oneworld.presentation.core.theme.White
 
 @Preview
 @Composable

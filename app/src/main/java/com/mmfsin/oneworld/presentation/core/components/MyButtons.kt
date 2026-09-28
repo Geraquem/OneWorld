@@ -15,14 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.presentation.core.theme.GrayMedium
-import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
-import com.mmfsin.oneworld.presentation.core.theme.White
+import com.mmfsin.oneworld.presentation.core.theme.montserrat_regular
 
 @Preview
 @Composable
@@ -32,14 +36,22 @@ fun ButtonCustomPV() {
             onClick = {},
             text = R.string.app_name
         )
+        SpacerSmall()
         ButtonCustomIcon(
             onClick = {},
             text = R.string.app_name,
-            icon = R.drawable.ic_profile,
+            icon = R.drawable.ic_error,
         )
+        SpacerSmall()
         OutlinedButtonCustom(
             onClick = {},
             text = R.string.app_name
+        )
+        SpacerSmall()
+        OutlinedButtonCustomIcon(
+            onClick = {},
+            text = R.string.app_name,
+            icon = R.drawable.ic_error
         )
     }
 }
@@ -47,12 +59,12 @@ fun ButtonCustomPV() {
 @Composable
 fun ButtonCustom(
     onClick: () -> Unit,
+    text: Int,
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
-    text: Int,
     enabled: Boolean = true,
-    color: Color = OrangeMedium,
-    textColor: Color = White
+    color: Color = White,
+    textColor: Color = Black
 ) {
     Button(
         onClick = { onClick() },
@@ -61,12 +73,20 @@ fun ButtonCustom(
         colors = ButtonDefaults.buttonColors(
             containerColor = color
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(25),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 2.dp,
+            disabledElevation = 0.dp
+        )
     ) {
         MediumText(
             text = text,
             color = textColor,
-            modifier = textModifier
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true,
+            fontWeight = FontWeight.SemiBold
         )
     }
 }
@@ -74,17 +94,21 @@ fun ButtonCustom(
 @Composable
 fun ButtonCustomIcon(
     onClick: () -> Unit,
+    text: Int,
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
-    text: Int,
     icon: Int,
     enabled: Boolean = true,
-    color: Color = OrangeMedium,
+    color: Color = BlueMedium,
     textColor: Color = White
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(25)
+            )
+            .clip(RoundedCornerShape(25))
             .background(if (enabled) color else GrayMedium)
             .clickable(onClick = { if (enabled) onClick() })
             .padding(horizontal = 12.dp, vertical = 8.dp),
@@ -98,7 +122,9 @@ fun ButtonCustomIcon(
         MediumText(
             text = text,
             color = textColor,
-            modifier = textModifier
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
         )
     }
 }
@@ -106,21 +132,59 @@ fun ButtonCustomIcon(
 @Composable
 fun OutlinedButtonCustom(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
     text: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
     enabled: Boolean = true,
-    textColor: Color = OrangeMedium
+    color: Color = BlueMedium
 ) {
     OutlinedButton(
         onClick = { onClick() },
         modifier = modifier,
         enabled = enabled,
-        border = BorderStroke(1.dp, textColor),
-        shape = RoundedCornerShape(8.dp)
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
     ) {
         MediumText(
             text = text,
-            color = textColor
+            color = color,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
         )
+    }
+}
+
+@Composable
+fun OutlinedButtonCustomIcon(
+    onClick: () -> Unit,
+    text: Int,
+    icon: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painterResource(icon), null,
+                tint = color
+            )
+            SpacerSmall(horizontal = true)
+            MediumText(
+                text = text,
+                color = color,
+                modifier = textModifier.padding(vertical = 4.dp),
+                fontFamily = montserrat_regular,
+                allCaps = true
+            )
+        }
     }
 }

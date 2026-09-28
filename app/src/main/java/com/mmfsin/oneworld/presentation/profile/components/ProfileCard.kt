@@ -26,6 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.UserProfile
 import com.mmfsin.oneworld.presentation.core.components.BigText
@@ -34,9 +37,6 @@ import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.presentation.core.theme.BlueMedium
-import com.mmfsin.oneworld.presentation.core.theme.GrayLight
-import com.mmfsin.oneworld.presentation.core.theme.White
 import com.mmfsin.oneworld.utils.openLink
 
 @Preview

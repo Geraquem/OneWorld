@@ -14,10 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.net.toUri
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.BedRockActivity
 import com.mmfsin.oneworld.presentation.core.components.MediumText
-import com.mmfsin.oneworld.presentation.core.theme.OrangeMedium
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter

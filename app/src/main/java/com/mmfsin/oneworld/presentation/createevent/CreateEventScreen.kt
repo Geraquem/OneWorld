@@ -26,27 +26,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
+import com.mmfsin.oneworld.presentation.core.components.CustomTextField
 import com.mmfsin.oneworld.presentation.core.components.LoadingDialog
 import com.mmfsin.oneworld.presentation.core.components.MediumText
-import com.mmfsin.oneworld.presentation.core.components.MyWhiteTextField
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerMini
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.presentation.core.components.Toolbar
-import com.mmfsin.oneworld.presentation.core.theme.GrayLight
-import com.mmfsin.oneworld.presentation.core.theme.RedMedium
-import com.mmfsin.oneworld.presentation.core.theme.White
 import com.mmfsin.oneworld.presentation.createevent.components.CategoryDialog
 import com.mmfsin.oneworld.presentation.createevent.components.MyCalendarPicker
 import com.mmfsin.oneworld.presentation.createevent.components.MyTimePicker
@@ -112,7 +110,7 @@ fun CreateEventContent(
     if (uiState.closeAndGoBack) activity.finish()
 
     Scaffold(
-        topBar = { Toolbar(text = stringResource(R.string.create_event_toolbar)) }
+        //        topBar = { Toolbar(text = stringResource(R.string.create_event_toolbar)) }
     ) { innerPadding ->
 
         Column(
@@ -124,7 +122,7 @@ fun CreateEventContent(
         ) {
             Spacer(Modifier.height(24.dp))
 
-            MyWhiteTextField(
+            CustomTextField(
                 value = uiState.title, onValueChange = { onTitleChange(it) },
                 label = R.string.create_event_title,
                 imeAction = ImeAction.Done
@@ -132,7 +130,7 @@ fun CreateEventContent(
 
             SpacerSmall()
 
-            MyWhiteTextField(
+            CustomTextField(
                 value = uiState.description, onValueChange = { onDescriptionChange(it) },
                 label = R.string.create_event_description,
                 imeAction = ImeAction.None,
@@ -144,7 +142,7 @@ fun CreateEventContent(
 
             SpacerSmall()
 
-            MyWhiteTextField(
+            CustomTextField(
                 value = uiState.webUrl, onValueChange = { onWebUrlChange(it) },
                 label = R.string.create_event_web,
                 imeAction = ImeAction.Done,

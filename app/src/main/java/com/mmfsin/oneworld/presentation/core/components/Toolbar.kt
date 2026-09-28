@@ -2,83 +2,110 @@
 
 package com.mmfsin.oneworld.presentation.core.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.presentation.core.theme.White
+import com.mmfsin.oneworld.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun ToolbarPV() {
-    Toolbar(text = "Toolbar", iconBackVisible = true, onBackClick = {}, rightIcon = R.drawable.ic_profile, onRightIconClick = {})
+fun CustomToolbarPV() {
+    Column {
+        CustomMainToolbar({})
+        SpacerSmall()
+        CustomToolbar(
+            true, {}, R.string.app_name, "",
+            true, R.drawable.ic_edit, {},
+        )
+    }
 }
 
 @Composable
-fun Toolbar(
-    text: String = "",
-    boldText: Boolean = false,
-    iconBackVisible: Boolean = false,
-    onBackClick: () -> Unit = {},
-    rightIcon: Int? = null,
-    onRightIconClick: () -> Unit = {},
-) {
+fun CustomMainToolbar(onRightIconClick: () -> Unit) {
     TopAppBar(
-        //        modifier = Modifier
-        //            .zIndex(1f)
-        //            .shadow(
-        //                elevation = 4.dp,
-        //                clip = false
-        //            ),
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = White
-        ),
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = text,
-                    fontWeight = if (boldText) FontWeight.Bold else FontWeight.Normal,
-                    textAlign = if (boldText) TextAlign.Center else TextAlign.Start,
-                    modifier = Modifier.weight(1f).padding(start = if (iconBackVisible) 2.dp else 16.dp),
+                MediumText(
+                    text = R.string.app_name,
+                    allCaps = true,
+                    fontFamily = montserrat_bold,
                 )
 
-                if (rightIcon != null) {
-                    IconButton(onClick = onRightIconClick, modifier = Modifier.padding(start = 0.dp)) {
+                Spacer(Modifier.weight(1f))
+
+                IconButton(onClick = { onRightIconClick() }) {
+                    Icon(painterResource(R.drawable.ic_profile), null)
+                }
+
+                SpacerSmall(horizontal = true)
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
+    )
+}
+
+@Composable
+fun CustomToolbar(
+    showGoBack: Boolean = true,
+    goBack: () -> Unit,
+    title: Int = R.string.empty,
+    titleString: String? = null,
+    showIconRight: Boolean = false,
+    iconRight: Int = R.drawable.ic_edit,
+    iconRightClick: () -> Unit = {}
+) {
+    TopAppBar(
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (showGoBack) {
+                    IconButton(onClick = { goBack() }) {
                         Icon(
-                            painter = painterResource(rightIcon),
-                            contentDescription = stringResource(R.string.empty),
-                            modifier = Modifier.size(24.dp)
+                            painterResource(R.drawable.ic_arrow_back), null,
+                            tint = Black
                         )
                     }
+                    SpacerSmall(horizontal = true)
+                }
+                if (titleString != null) {
+                    MediumText(
+                        text = titleString,
+                        color = Black,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                } else {
+                    MediumText(
+                        text = title,
+                        color = Black,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                if (showIconRight) {
+                    Spacer(Modifier.weight(1f))
+                    IconButton(onClick = { iconRightClick() }) {
+                        Icon(
+                            painterResource(iconRight), null,
+                            tint = Black
+                        )
+                    }
+                    SpacerSmall(horizontal = true)
                 }
             }
         },
-
-        navigationIcon = {
-            if (iconBackVisible) {
-                IconButton(onClick = onBackClick, modifier = Modifier.padding(start = 0.dp)) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(R.string.cd_arrow_back),
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
-            }
-        }
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
     )
 }

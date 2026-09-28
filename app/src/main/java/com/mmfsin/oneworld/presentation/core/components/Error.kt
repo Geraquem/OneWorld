@@ -17,9 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.presentation.core.theme.RedMedium
-import com.mmfsin.oneworld.presentation.core.theme.White
 
 @Preview
 @Composable
@@ -45,7 +45,8 @@ fun ErrorDialog(accept: () -> Unit) {
                 )
             }
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 MediumText(text = R.string.error_title)
 
@@ -53,7 +54,7 @@ fun ErrorDialog(accept: () -> Unit) {
 
                 MediumText(text = R.string.error_subtitle)
 
-                SpacerLarge()
+                SpacerMedium()
 
                 Button(
                     modifier = Modifier.fillMaxWidth(),

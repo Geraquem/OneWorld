@@ -26,7 +26,7 @@ class UsersRepository @Inject constructor(
     private val usersDAO: UsersDAO
 ) : IUsersRepository {
 
-    override fun checkIfLogged(): Boolean {
+    private fun checkIfLogged(): Boolean {
         val account = GoogleSignIn.getLastSignedInAccount(context)
         return account != null
     }
@@ -38,7 +38,7 @@ class UsersRepository @Inject constructor(
         return GoogleSignIn.getClient(context, googleConf).signInIntent
     }
 
-    override suspend fun getOrCreateProfile(name: String, email: String) {
+    override suspend fun getOrCreateProfile(name: String?, email: String) {
         var user: UserProfileDTO?
 
         val db = FirebaseFirestore.getInstance()
@@ -53,7 +53,7 @@ class UsersRepository @Inject constructor(
             user = UserProfileDTO(
                 id = UUID.randomUUID().toString(),
                 email = email,
-                name = name
+                name = name ?: ""
             )
 
             /** insert in Firestore */
@@ -64,7 +64,8 @@ class UsersRepository @Inject constructor(
         user?.let { usersDAO.insertUser(user) }
     }
 
-    override fun getMyProfile(): Flow<UserProfile?> {
+    override suspend fun getMyProfile(): Flow<UserProfile?> {
+        if (!checkIfLogged()) usersDAO.closeSession()
         return usersDAO.getActiveUserFlow().map { it?.toUserProfile() }
     }
 

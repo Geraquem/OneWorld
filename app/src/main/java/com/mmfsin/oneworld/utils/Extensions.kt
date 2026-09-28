@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.core.net.toUri
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeMedium
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.presentation.BedRockActivity
+import com.mmfsin.oneworld.presentation.bedrock.BedRockActivity
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import java.time.Instant
 import java.time.ZoneId

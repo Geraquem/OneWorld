@@ -1,19 +1,23 @@
 package com.mmfsin.oneworld.presentation.profile.myprofile
 
-import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mmfsin.oneworld.domain.models.UserProfile
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.components.ErrorDialog
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
-import com.mmfsin.oneworld.presentation.profile.components.LoginScreen
+import com.mmfsin.oneworld.presentation.login.LoginView
 import com.mmfsin.oneworld.presentation.profile.components.ProfileView
 import com.mmfsin.oneworld.utils.NAV_CREATE_EVENT
 import com.mmfsin.oneworld.utils.NAV_EDIT_PROFILE
@@ -25,12 +29,9 @@ fun ProfileScreenPV() {
     ProfileContent(
         MyProfileStates(
             isLoading = false,
-            userLogged = true,
-            myProfile = UserProfile(
-                name = "Juan"
-            )
+            userProfile = null
         ),
-        {}, { Intent() })
+    )
 }
 
 @Composable
@@ -38,42 +39,40 @@ fun ProfileScreen(viewModel: MyProfileViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ProfileContent(
-        uiState = uiState,
-        doLogin = { viewModel.doLogin(it) },
-        signInWithGoogle = { viewModel.signInWithGoogle() },
-    )
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result -> viewModel.doLogin(result) }
+
+    if (uiState.userProfile == null) {
+        LoginView(
+            login = {
+                val intent = viewModel.signInWithGoogle()
+                launcher.launch(intent)
+            }
+        )
+    } else {
+        ProfileContent(
+            uiState = uiState,
+        )
+    }
+
+    if (uiState.isLoading) LoadingFullScreen()
+    if (uiState.sww) ErrorDialog(accept = {})
 }
 
 @Composable
 fun ProfileContent(
     uiState: MyProfileStates,
-    doLogin: (ActivityResult) -> Unit,
-    signInWithGoogle: () -> Intent,
 ) {
     val context = LocalContext.current
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result -> doLogin(result) }
+    Column(
+        Modifier.fillMaxSize().background(GrayLight).padding(12.dp)
+    ) {
 
-    if (uiState.userLogged && uiState.myProfile != null) {
         ProfileView(
-            profile = uiState.myProfile,
-            events = uiState.eventsCreated,
-            editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
-            createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) }
-        )
-    } else {
-        LoginScreen(
-            initiateSession = {
-                val intent = signInWithGoogle()
-                launcher.launch(intent)
-            }
-        )
-        return
+            profile = uiState.userProfile, events = uiState.eventsCreated, editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
+            createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) })
     }
 
-    if (uiState.isLoading) LoadingFullScreen()
-    if (uiState.sww) ErrorDialog(accept = {})
 }

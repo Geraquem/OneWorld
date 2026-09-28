@@ -9,13 +9,12 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -25,14 +24,18 @@ import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
 import com.mmfsin.oneworld.presentation.core.components.CustomMainToolbar
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.events.EventsScreen
+import com.mmfsin.oneworld.presentation.main.MainViewModel
 import com.mmfsin.oneworld.presentation.profile.myprofile.ProfileScreen
 import com.mmfsin.oneworld.utils.BN_EDIT_ID
 import com.mmfsin.oneworld.utils.BN_EVENTS_ID
 import com.mmfsin.oneworld.utils.BN_PROFILE_ID
 
 @Composable
-fun NavigationWrapper() {
+fun NavigationMain(viewModel: MainViewModel) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+
+    val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
     val bottomNavItems = listOf(
         BottomNavItem(id = BN_EVENTS_ID, name = stringResource(R.string.bottom_nav_events), icon = painterResource(R.drawable.ic_home)),

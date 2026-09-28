@@ -7,9 +7,8 @@ import com.mmfsin.oneworld.domain.usecases.EditMyProfileUseCase
 import com.mmfsin.oneworld.domain.usecases.GetMyProfileUseCase
 import com.mmfsin.oneworld.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,19 +23,21 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private fun observeUserProfile() {
-        getMyProfileUseCase().onEach { profile ->
-            if (profile != null) {
-                _uiState.update {
-                    it.copy(
-                        name = profile.name,
-                        biography = profile.biography,
-                        imageUrl = profile.imageUrl,
-                        website = profile.website,
-                        isLoading = false
-                    )
+        viewModelScope.launch {
+            getMyProfileUseCase().collect { profile ->
+                profile?.let {
+                    _uiState.update {
+                        it.copy(
+                            name = profile.name,
+                            biography = profile.biography,
+                            imageUrl = profile.imageUrl,
+                            website = profile.website,
+                            isLoading = false
+                        )
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
     fun changeName(name: String) = _uiState.update { it.copy(name = name) }

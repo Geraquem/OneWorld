@@ -65,14 +65,11 @@ class MyProfileViewModel @Inject constructor(
     }
 
     private fun getMyEventsCreated(userId: String) {
-        executeUseCase(
-            { getMyEventsCreatedUseCase(userId) },
-            { events ->
-                events?.let {
-                    _uiState.update { it.copy(eventsCreated = events) }
-                } ?: run { sww() }
-            },
-            { sww() })
+        viewModelScope.launch {
+            getMyEventsCreatedUseCase(userId).collect { events ->
+                _uiState.update { it.copy(eventsCreated = events) }
+            }
+        }
     }
 
     fun sww() = _uiState.update { it.copy(sww = true) }

@@ -59,7 +59,6 @@ fun EventCard(
     Column(
         modifier = Modifier
             .clickable(onClick = { onEventClick() })
-            .background(White)
     ) {
 
         //        Box(modifier = Modifier.fillMaxWidth().height(6.dp).background(GrayHard))

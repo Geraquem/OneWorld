@@ -54,7 +54,7 @@
     <string name="category_farming_description">Agricultura description</string>
 
     <!-- PROFILE -->
-    <string name="profile_created_events">Eventos creados</string>
+    <string name="profile_created_events">%s Eventos creados</string>
     <string name="profile_created_events_none">No tienes ningún evento creado.</string>
     <string name="profile_initiate_session">Iniciar sesión</string>
     <string name="profile_no_events">Parece que todavía\nno has creado nada</string>

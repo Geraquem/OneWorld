@@ -58,7 +58,7 @@ fun ProfileCard(
     openLink: (String) -> Unit,
     openImage: (String) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),

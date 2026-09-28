@@ -21,6 +21,8 @@ import com.mmfsin.oneworld.utils.EVENT_SAVES
 import com.mmfsin.oneworld.utils.EVENT_SAVES_COUNT
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -110,19 +112,18 @@ class EventsRepository @Inject constructor(
             .await()
     }
 
-    override suspend fun getMyEventsCreated(userId: String): List<Event>? {
-        return if (sharedPrefs.checkUserEventsFromServer()) {
+    override suspend fun getMyEventsCreated(userId: String): Flow<List<Event>> {
+        if (sharedPrefs.checkUserEventsFromServer()) {
             val db = FirebaseFirestore.getInstance()
             val snapshot = db.collection(EVENTS).whereEqualTo(CREATOR_ID, userId).get().await()
             val events = snapshot.documents.mapNotNull { doc -> doc.toObject(EventDTO::class.java) }
 
             /** Save in Room */
             eventsDAO.insertUserEvents(events)
-
             sharedPrefs.searchEventsInServer(value = false)
-            events.toEventList()
+        }
 
-        } else eventsDAO.getUserEvents(userId).toEventList()
+        return eventsDAO.getUserEvents(userId).map { it.toEventList() }
     }
 
     override suspend fun setEventLike(eventId: String) {

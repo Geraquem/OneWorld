@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mmfsin.oneworld.data.models.EventDTO
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EventsDAO {
@@ -16,5 +17,5 @@ interface EventsDAO {
     suspend fun insertSingleEvent(event: EventDTO)
 
     @Query("SELECT * FROM table_events WHERE creatorId = :userId")
-    suspend fun getUserEvents(userId: String): List<EventDTO>
+    fun getUserEvents(userId: String): Flow<List<EventDTO>>
 }

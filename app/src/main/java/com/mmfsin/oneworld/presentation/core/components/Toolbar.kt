@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.core.theme.montserrat_bold
 
@@ -25,7 +26,7 @@ import com.mmfsin.oneworld.presentation.core.theme.montserrat_bold
 @Composable
 fun CustomToolbarPV() {
     Column {
-        CustomMainToolbar({})
+        CustomMainToolbar()
         SpacerSmall()
         CustomToolbar(
             true, {}, R.string.app_name, "",
@@ -35,7 +36,11 @@ fun CustomToolbarPV() {
 }
 
 @Composable
-fun CustomMainToolbar(onRightIconClick: () -> Unit) {
+fun CustomMainToolbar(
+    showRightIcon: Boolean = false,
+    rightIcon: Int = R.drawable.ic_profile,
+    onRightIconClick: () -> Unit = {}
+) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -47,14 +52,15 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
 
                 Spacer(Modifier.weight(1f))
 
-                IconButton(onClick = { onRightIconClick() }) {
-                    Icon(painterResource(R.drawable.ic_profile), null)
+                if (showRightIcon) {
+                    IconButton(onClick = { onRightIconClick() }) {
+                        Icon(painterResource(rightIcon), null)
+                    }
+                    SpacerSmall(horizontal = true)
                 }
-
-                SpacerSmall(horizontal = true)
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = White),
     )
 }
 
@@ -106,6 +112,6 @@ fun CustomToolbar(
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = White),
     )
 }

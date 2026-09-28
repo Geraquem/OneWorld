@@ -37,7 +37,7 @@ class EventsViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         searchingCategory = newCategory,
-                        categoryDialogVisibility = false
+                        showCategoryDialog = false
                     )
                 }
                 getEvents(newCategory)
@@ -61,5 +61,5 @@ class EventsViewModel @Inject constructor(
         )
     }
 
-    fun categoryDialogVisibility(value: Boolean) = _uiState.update { it.copy(categoryDialogVisibility = value) }
+    fun showCategoryDialog(value: Boolean) = _uiState.update { it.copy(showCategoryDialog = value) }
 }

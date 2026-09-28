@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.presentation.aaaaa.AAAScreen
+import com.mmfsin.oneworld.presentation.core.components.CustomMainToolbar
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.events.EventsScreen
 import com.mmfsin.oneworld.presentation.profile.myprofile.ProfileScreen
@@ -42,10 +43,8 @@ fun NavigationWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    var toolbarComp by remember { mutableStateOf<(@Composable () -> Unit)?>(null) }
-
     Scaffold(
-        topBar = { toolbarComp?.invoke() },
+        topBar = { CustomMainToolbar() },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->
@@ -73,13 +72,12 @@ fun NavigationWrapper() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = BN_EVENTS_ID) {
-                EventsScreen(toolbar = { toolbarComp = it })
+                EventsScreen()
             }
             composable(route = BN_EDIT_ID) {
                 AAAScreen()
             }
             composable(route = BN_PROFILE_ID) {
-                toolbarComp = null
                 ProfileScreen()
             }
         }

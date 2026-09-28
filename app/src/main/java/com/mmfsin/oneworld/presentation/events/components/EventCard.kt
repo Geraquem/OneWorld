@@ -29,7 +29,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.Event
 import com.mmfsin.oneworld.domain.models.EventCategory.Companion.getCategoryById
-import com.mmfsin.oneworld.domain.models.getExampleEvent
+import com.mmfsin.oneworld.domain.models.getExampleEvents
 import com.mmfsin.oneworld.presentation.core.components.MediumText
 import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerLarge
@@ -42,7 +42,7 @@ import com.mmfsin.oneworld.utils.openLink
 @Composable
 fun EventCardPV() {
     EventCard(
-        getExampleEvent(),
+        getExampleEvents().first(),
         {}, {},
     )
 }
@@ -50,7 +50,7 @@ fun EventCardPV() {
 @Composable
 fun EventCard(
     event: Event,
-    onEventClick: (String) -> Unit,
+    onEventClick: () -> Unit,
     onUserNameClick: () -> Unit,
 ) {
 
@@ -58,7 +58,7 @@ fun EventCard(
 
     Column(
         modifier = Modifier
-            .clickable(onClick = { onEventClick(event.id) })
+            .clickable(onClick = { onEventClick() })
             .background(White)
     ) {
 

@@ -17,7 +17,8 @@
     <string name="bottom_nav_profile">Perfil</string>
 
     <!-- EVENTS -->
-    <string name="events_toolbar">Eventos:</string>
+    <string name="events_empty">Parece que no hay ningún evento</string>
+    <string name="events_toolbar">Categoría:</string>
     <string name="events_where">¿Dónde?</string>
     <string name="events_when">¿Cuándo?</string>
     <string name="events_location">Ubicación del evento</string>

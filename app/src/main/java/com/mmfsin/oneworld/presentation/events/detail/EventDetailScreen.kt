@@ -32,7 +32,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GreenMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
 import com.mmfsin.oneworld.R
-import com.mmfsin.oneworld.domain.models.getExampleEvent
+import com.mmfsin.oneworld.domain.models.getExampleEvents
 import com.mmfsin.oneworld.presentation.core.components.BigText
 import com.mmfsin.oneworld.presentation.core.components.ButtonCustom
 import com.mmfsin.oneworld.presentation.core.components.MediumText
@@ -49,7 +49,7 @@ import com.mmfsin.oneworld.utils.openLink
 fun EventDetailPV() {
     EventDetailContent(
         uiState = EventDetailStates(
-            event = getExampleEvent()
+            event = getExampleEvents().first()
         ),
         {}, {}, {},
     )

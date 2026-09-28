@@ -18,10 +18,11 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.oneworld.presentation.core.components.ErrorDialog
 import com.mmfsin.oneworld.presentation.core.components.LoadingFullScreen
 import com.mmfsin.oneworld.presentation.login.LoginView
-import com.mmfsin.oneworld.presentation.profile.components.ProfileView
+import com.mmfsin.oneworld.presentation.profile.components.ProfileCard
 import com.mmfsin.oneworld.utils.NAV_CREATE_EVENT
 import com.mmfsin.oneworld.utils.NAV_EDIT_PROFILE
 import com.mmfsin.oneworld.utils.openBedRockActivity
+import com.mmfsin.oneworld.utils.openLink
 
 @Preview(showBackground = true)
 @Composable
@@ -31,6 +32,7 @@ fun ProfileScreenPV() {
             isLoading = false,
             userProfile = null
         ),
+        {}, {}, {}, {},
     )
 }
 
@@ -38,6 +40,7 @@ fun ProfileScreenPV() {
 fun ProfileScreen(viewModel: MyProfileViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -53,6 +56,10 @@ fun ProfileScreen(viewModel: MyProfileViewModel = hiltViewModel()) {
     } else {
         ProfileContent(
             uiState = uiState,
+            goToEditProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
+            openLink = { context.openLink(it) },
+            openImage = {},
+            createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) },
         )
     }
 
@@ -63,16 +70,24 @@ fun ProfileScreen(viewModel: MyProfileViewModel = hiltViewModel()) {
 @Composable
 fun ProfileContent(
     uiState: MyProfileStates,
+    goToEditProfile: (String) -> Unit,
+    openLink: (String?) -> Unit,
+    openImage: (String?) -> Unit,
+    createEvent: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     Column(
-        Modifier.fillMaxSize().background(GrayLight).padding(12.dp)
+        Modifier.fillMaxSize()
+            .background(GrayLight)
+            .padding(12.dp)
     ) {
-
-        ProfileView(
-            profile = uiState.userProfile, events = uiState.eventsCreated, editProfile = { context.openBedRockActivity(NAV_EDIT_PROFILE) },
-            createEvent = { context.openBedRockActivity(NAV_CREATE_EVENT) })
+        if (uiState.userProfile != null) {
+            ProfileCard(
+                userProfile = uiState.userProfile,
+                isMyProfile = true,
+                editProfile = { goToEditProfile(uiState.userProfile.id) },
+                openLink = { openLink(uiState.userProfile.website) },
+                openImage = { openImage(uiState.userProfile.imageUrl) }
+            )
+        }
     }
-
 }

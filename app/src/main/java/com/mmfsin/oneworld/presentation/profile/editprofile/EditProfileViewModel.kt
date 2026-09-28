@@ -19,10 +19,10 @@ class EditProfileViewModel @Inject constructor(
 ) : BaseViewModel<EditProfileStates>(EditProfileStates()) {
 
     init {
-        observeUserProfile()
+        checkUserProfile()
     }
 
-    private fun observeUserProfile() {
+    private fun checkUserProfile() {
         viewModelScope.launch {
             getMyProfileUseCase().collect { profile ->
                 profile?.let {

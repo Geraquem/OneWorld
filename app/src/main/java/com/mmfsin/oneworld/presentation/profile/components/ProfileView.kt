@@ -48,38 +48,39 @@ fun ProfileView(
         modifier = Modifier.fillMaxSize().background(GrayLight).padding(horizontal = 16.dp)
     ) {
         profile?.let {
-            ProfileCard(
-                userProfile = profile,
-                editProfile = { editProfile() }
-            )
-        }
+            //            ProfileCard(
+            //                userProfile = profile,
+            //                editProfile = { editProfile() }
+            //            )
+            //        }
 
-        SpacerMini()
+            SpacerMini()
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (events == null) {
-                MediumText(text = R.string.profile_loading_events)
-            } else {
-                MediumText(text = stringResource(R.string.profile_created_events, (events.size).toString()))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (events == null) {
+                    MediumText(text = R.string.profile_loading_events)
+                } else {
+                    MediumText(text = stringResource(R.string.profile_created_events, (events.size).toString()))
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                TextButton(onClick = { createEvent() }) {
+                    MediumText(
+                        text = R.string.create_event_button,
+                        color = OrangeMedium
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            TextButton(onClick = { createEvent() }) {
-                MediumText(
-                    text = R.string.create_event_button,
-                    color = OrangeMedium
-                )
-            }
-        }
-
-        events?.let { e ->
-            LazyColumn {
-                e.forEachIndexed { i, event ->
-                    item {
-//                        EventCard(event, i != (events.size - 1))
+            events?.let { e ->
+                LazyColumn {
+                    e.forEachIndexed { i, event ->
+                        item {
+                            //                        EventCard(event, i != (events.size - 1))
+                        }
                     }
                 }
             }

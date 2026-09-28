@@ -20,14 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
-import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.oneworld.R
 import com.mmfsin.oneworld.domain.models.UserProfile
@@ -37,7 +35,6 @@ import com.mmfsin.oneworld.presentation.core.components.SmallText
 import com.mmfsin.oneworld.presentation.core.components.SpacerCustom
 import com.mmfsin.oneworld.presentation.core.components.SpacerMedium
 import com.mmfsin.oneworld.presentation.core.components.SpacerSmall
-import com.mmfsin.oneworld.utils.openLink
 
 @Preview
 @Composable
@@ -48,38 +45,20 @@ fun ProfileCardPV() {
             biography = "Cuando salga el Sol, me recordará cuando estés allí.",
             website = "www.estereotipia.com"
         ),
-        {},
-        myProfile = true
+        isMyProfile = true,
+        {}, {}, {},
     )
 }
 
 @Composable
 fun ProfileCard(
     userProfile: UserProfile,
+    isMyProfile: Boolean = false,
     editProfile: () -> Unit,
-    myProfile: Boolean = false
+    openLink: (String) -> Unit,
+    openImage: (String) -> Unit,
 ) {
-
-    val context = LocalContext.current
-
     Column(modifier = Modifier.fillMaxWidth()) {
-
-        SpacerSmall()
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BigText(
-                userProfile.name,
-                fontWeight = FontWeight.SemiBold,
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { editProfile() }) {
-                Icon(painterResource(R.drawable.ic_settings), null)
-            }
-        }
-
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
@@ -93,6 +72,26 @@ fun ProfileCard(
             Column(
                 modifier = Modifier.padding(12.dp)
             ) {
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BigText(
+                        userProfile.name,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    if (isMyProfile) {
+                        IconButton(onClick = { editProfile() }) {
+                            Icon(painterResource(R.drawable.ic_settings), null)
+                        }
+                    }
+                }
+
+                SpacerSmall()
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -101,15 +100,20 @@ fun ProfileCard(
                         AsyncImage(
                             model = userProfile.imageUrl,
                             contentDescription = null,
-                            modifier = Modifier.size(72.dp)
+                            modifier = Modifier
+                                .size(72.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(GrayLight),
+                                .background(White)
+                                .clickable(
+                                    onClick = { userProfile.imageUrl?.let { openImage(it) } }
+                                ),
                             contentScale = ContentScale.Crop
                         )
                     } else {
                         Image(
                             painterResource(R.drawable.gnome), null,
-                            modifier = Modifier.size(72.dp)
+                            modifier = Modifier
+                                .size(72.dp)
                                 .clip(RoundedCornerShape(8.dp)),
                             contentScale = ContentScale.Crop
                         )
@@ -121,17 +125,15 @@ fun ProfileCard(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        if (myProfile) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                BigText("245", fontWeight = FontWeight.SemiBold)
-                                MediumText(R.string.profile_i_support)
-                            }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            BigText("245", fontWeight = FontWeight.SemiBold)
+                            MediumText(R.string.profile_i_support)
                         }
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             BigText("154.356.123", fontWeight = FontWeight.SemiBold)
                             MediumText(
-                                text = if (myProfile) R.string.profile_support_me
+                                text = if (isMyProfile) R.string.profile_support_me
                                 else R.string.profile_support_it
                             )
                         }
@@ -152,7 +154,7 @@ fun ProfileCard(
                         fontWeight = FontWeight.SemiBold,
                         color = BlueMedium,
                         modifier = Modifier.clickable(
-                            onClick = { context.openLink(web) }
+                            onClick = { openLink(web) }
                         )
                     )
                 }

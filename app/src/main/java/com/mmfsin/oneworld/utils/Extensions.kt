@@ -61,10 +61,12 @@ fun Long.formatDateFromMillis(): String {
 
 fun Int.formatTime(): String = "%02d".format(Locale.US, this)
 
-fun Context.openLink(url: String) {
+fun Context.openLink(url: String?) {
     try {
-        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-        startActivity(intent)
+        url?.let {
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+            startActivity(intent)
+        }
     } catch (e: Exception) {
         Toast.makeText(this, "Error abriendo enlace", Toast.LENGTH_SHORT).show()
     }
